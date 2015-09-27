@@ -42,7 +42,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $result;
                 }                
             ],
-//             'fuName',
              'bday',
              'bmonth',
              'byear',

@@ -39,10 +39,11 @@ use yii\helpers\Html;
  * @property string $grave_picture
  * @property string $created_at
  * @property string $updated_at
+ * @property string $fuName
  */
 class Relatives extends \yii\db\ActiveRecord
 {
-    public $fuName;
+//    public $fuName;
     
     const MAN = 0;
     const WOMAN = 1;
