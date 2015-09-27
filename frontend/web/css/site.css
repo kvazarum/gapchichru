@@ -89,3 +89,11 @@ a.desc:after {
     padding: 10px 20px;
     margin: 0 0 15px 0;
 }
+
+.label-woman {
+  background-color: #d591b9;
+}
+
+.label-man {
+  background-color: #5ca3d9;
+}

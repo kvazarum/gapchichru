@@ -21,7 +21,7 @@ use yii\helpers\Html;
  * @property string $father_id
  * @property string $img
  * @property string $bplace
- * @property integer $sex
+ * @property integer $gender
  * @property string $descr
  * @property string $second_sname
  * @property string $ddate
@@ -63,7 +63,7 @@ class Relatives extends \yii\db\ActiveRecord
         return [
             [['index', 'rod', 'visible', 'last_change', 'created_at', 'updated_at'], 'required'],
             [['bdate', 'ddate', 'last_change', 'created_at', 'updated_at', 'fuName'], 'safe'],
-            [['bday', 'mother_id', 'father_id', 'sex', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
+            [['bday', 'mother_id', 'father_id', 'gender', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
             [['grave_lon', 'grave_lat'], 'number'],
             [['index'], 'string', 'max' => 40],
             [['sname', 'mname', 'rod', 'grave_picture'], 'string', 'max' => 50],
@@ -95,7 +95,7 @@ class Relatives extends \yii\db\ActiveRecord
             'father_id' => 'Отец',
             'img' => 'Img',
             'bplace' => 'Место рождения',
-            'sex' => 'Пол',
+            'gender' => 'Пол',
             'descr' => 'Доп. сведения',
             'second_sname' => 'Другие фамилии',
             
@@ -154,7 +154,7 @@ class Relatives extends \yii\db\ActiveRecord
     {
         $rel = Relatives::findOne($id);
         $result = '';
-        if (strlen($rel->img) > 0)
+        if ($rel->img != NULL)
         {
             $result = '<img src="/pics/thumb/30_'.$rel->img.'">';
         }
@@ -180,17 +180,17 @@ class Relatives extends \yii\db\ActiveRecord
             //  пол
             if ($id != null)
             {
-                if ($rel->sex === null)
+                if ($rel->gender === null)
                 {
                     $text = '<span class="label label-info">Нет данных</span>';
                 }
-                elseif ($rel->sex)
+                elseif ($rel->gender)
                 {
-                    $text = '<span class="label label-danger">Женский</span>';
+                    $text = '<span class="label label-woman">Женский</span>';
                 }
-                elseif (!$rel->sex)
+                elseif (!$rel->gender)
                 {
-                    $text = '<span class="label label-primary">Мужской</span>';
+                    $text = '<span class="label label-man">Мужской</span>';
                 }
             }
             else
@@ -227,7 +227,7 @@ class Relatives extends \yii\db\ActiveRecord
     
     public function hasChildren()
     {
-        if ($this->sex)
+        if ($this->gender)
         {
             $field = 'mother_id';
         }
@@ -237,6 +237,20 @@ class Relatives extends \yii\db\ActiveRecord
         }
         //$result = count(Relatives::find()->where([$field => $this->id])->all());
         $result = count(Relatives::findAll([$field => $this->id]));
+        return $result;
+    }
+    
+    public function getParents()
+    {
+        $result = FALSE;
+        if ($this->father_id != null)
+        {
+            $result[] = Relatives::findOne($this->father_id);
+        }
+        if ($this->mother_id != null)
+        {
+            $result[] = Relatives::findOne($this->mother_id);
+        }
         return $result;
     }
 }

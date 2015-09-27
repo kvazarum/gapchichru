@@ -32,7 +32,7 @@ use kartik\select2\Select2;
 
     <?php
         
-        $relatives = Relatives::find()->all();
+        $relatives = Relatives::findAll(['gender' => 0]);
         $array = [];
         foreach ($relatives as $rel) {
             $name = Relatives::getFullName($rel->id);
@@ -53,6 +53,13 @@ use kartik\select2\Select2;
     
     <?php
 //        echo $form->field($model, 'mother_id')->textInput(['maxlength' => true]);
+        $relatives = Relatives::findAll(['gender' => 1]);
+        $array = [];
+        foreach ($relatives as $rel) {
+            $name = Relatives::getFullName($rel->id);
+            $array[] = ['id' => $rel->id, 'name' => $name];
+        }
+        $list = ArrayHelper::map($array, 'id' , 'name');    
         echo $form->field($model, 'mother_id')->widget(Select2::classname(), [
             'data' => $list,
             'language' => 'ru',
@@ -69,7 +76,7 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'bplace')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'sex')->textInput() ?>
+    <?= $form->field($model, 'gender')->textInput() ?>
 
     <?= $form->field($model, 'descr')->textInput(['maxlength' => true]) ?>
 

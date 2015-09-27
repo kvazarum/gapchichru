@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
-        <?= Html::a('Добавить человека', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Добавить человека', ['create'], ['class' => 'btn btn-success', 'target' => '_blank']) ?>
     </p>
 
     <?php
@@ -95,14 +95,14 @@ $this->params['breadcrumbs'][] = $this->title;
             // 'img',
             // 'bplace',
             [
-                'attribute'=>'sex',
+                'attribute'=>'gender',
                 'format' => 'html',
                 'filter'=>array(
                     "1" => "Женский",
                     "0" =>"Мужской"
                 ),
                 'value' => function($model){
-                    if ($model->sex == 0)
+                    if ($model->gender == 0)
                     {
                         $result = '<span class="label label-primary">Мужской</span>';
                     }

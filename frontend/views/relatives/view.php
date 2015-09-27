@@ -56,7 +56,7 @@ const COL_SPAN = 4;
                 'attribute'=>'img',
                 'label' => 'Изображение',
                 'value' => strlen($model->img) > 0 ? '/pics/'.$model->img : '/pics/pics/no_data.png',
-                'format' => ['image',['width'=>'200','height'=>'200']],
+                'format' => ['image',['height'=>'200']],
                 ['attribute'=>'hidden','visible'=> !Yii::$app->user->isGuest],
             ],            
             'id',
@@ -70,9 +70,9 @@ const COL_SPAN = 4;
             'byear',
             'bplace',
             [
-                'attribute'=>'sex',
+                'attribute'=>'gender',
                 'format' => 'raw',
-                'value' => $model->sex ? '<span class="label label-danger">Женский</span>' : '<span class="label label-primary">Мужской</span>',
+                'value' => $model->gender ? '<span class="label label-woman">Женский</span>' : '<span class="label label-man">Мужской</span>',
             ],
             'descr:html',
         ],
@@ -120,7 +120,7 @@ const COL_SPAN = 4;
 
                         $url = '/relatives/create?father_id='.$father.'&mother_id='.$mother;
                         $options = NULL;
-                        $text = Html::tag('a', '<small>Добавить ребёнка</small>', ['class' => 'btn btn-success pull-right', 'href' => $url]);
+                        $text = Html::tag('a', '<small>Добавить ребёнка</small>', ['class' => 'btn btn-success pull-right', 'href' => $url, 'target' => '_blank']);
                         echo Html::tag('th', '<h3>Семья</h3>'.$text, ['colspan' => COL_SPAN]);
                         echo Html::endTag('tr');
                         echo Html::beginTag('tr');
@@ -139,6 +139,31 @@ const COL_SPAN = 4;
                                 Relatives::renderRow($child->id);
                             }
                         }
+                    echo Html::endTag('table');
+                }
+                if ($model->gender)
+                {
+                    $field = 'mother_id';
+                    $nullField = 'father_id';
+                }
+                else
+                {
+                    $field = 'father_id';
+                    $nullField = 'mother_id';
+                }
+                
+                $children = Relatives::findAll([$field => $model->id, $nullField => null]);
+                if (count($children) > 0)
+                {
+                    echo Html::beginTag('table', ['class' => 'table table-striped table-bordered detail-view']);
+                        $url = '/relatives/create?'.$field.'='.$model->id;
+                        $options = NULL;
+                        $text = Html::tag('a', '<small>Добавить ребёнка</small>', ['class' => 'btn btn-success pull-right', 'href' => $url, 'target' => '_blank']);
+                        echo Html::tag('th', '<h3>Дети</h3>'.$text, ['colspan' => COL_SPAN]);
+                        foreach ($children as $child)
+                        {
+                            Relatives::renderRow($child->id);
+                        }                    
                     echo Html::endTag('table');
                 }
                 ?>
@@ -271,7 +296,7 @@ const COL_SPAN = 4;
         <?php
             if ($model->hasChildren())
             {
-                if ($model->sex)
+                if ($model->gender)
                 {
                     $field = 'mother_id';
                 }
@@ -281,7 +306,7 @@ const COL_SPAN = 4;
                 }
                 
                 $children = Relatives::findAll([$field => $model->id]);
-                renderRelativesTable($children);
+                renderRelativesTable($children, 1);
             }
             else
             {
@@ -291,21 +316,87 @@ const COL_SPAN = 4;
         </div>        
 <!----------------------------- предки ----------------------------------------->    
         <div class="tab-pane" id="ancestors">
-            
+        <?php
+            $parents = $model->getParents();
+            if ($parents)
+            {
+                renderAncestorsList($parents, 1);
+            }
+            else
+            {
+                echo Html::tag('div', 'Нет данных');
+            }
+        ?>            
         </div>
 
 <?php
-    function renderRelativesTable($children)
+    function renderAncestorsList($parents, $level)
     {
-        $nextLevelChildren = [];
+        $nextLevelAncestors = [];
+        if ($level == 1)
+        {
+            $title = $level.' Родители';
+        }
+        elseif ($level == 2)
+        {
+            $title = $level.' Бабушки, дедушки';
+        }
+        else
+        {
+            $title = $level.' уровень';
+        }
+        
         echo Html::beginTag('table', ['class' => 'table table-striped table-bordered detail-view']);
             echo Html::beginTag('tr', ['class' => 'info']);
-                echo Html::tag('th', 'Уровень', ['colspan' => COL_SPAN]);
+                echo Html::tag('th', $title, ['colspan' => COL_SPAN]);
+            echo Html::endTag('tr');
+            foreach ($parents as $parent)
+            {            
+                echo Relatives::renderRow($parent->id);
+                if ($parent->father_id != null)
+                {
+                    $nextLevelAncestors[] = Relatives::findOne($parent->father_id);
+                }
+                if ($parent->mother_id != null)
+                {
+                    $nextLevelAncestors[] = Relatives::findOne($parent->mother_id);
+                }                
+            }
+        echo Html::endTag('table');
+        
+        if (count($nextLevelAncestors) > 0)
+        {
+            renderAncestorsList($nextLevelAncestors, ++$level);
+        }
+    }
+
+    function renderRelativesTable($children, $level)
+    {
+        $nextLevelChildren = [];
+        if($level == 1)
+        {
+            $title = $level.' Дети';
+        }
+        elseif($level == 2)
+        {
+            $title = $level.' Внуки';
+        }
+        elseif ($level == 3) 
+        {
+            $title = $level.' Правнуки';
+        }
+        else 
+        {
+            $title = $level.' уровень';
+        }
+        echo Html::beginTag('table', ['class' => 'table table-striped table-bordered detail-view']);
+            echo Html::beginTag('tr', ['class' => 'info']);
+                echo Html::tag('th', $title, ['colspan' => COL_SPAN]);
             echo Html::endTag('tr');
             foreach ($children as $child)
             {
                 echo Relatives::renderRow($child->id);
-                if ($child->sex)
+                if ($child->gender)
                 {
                     $field = 'mother_id';
                 }
@@ -326,9 +417,8 @@ const COL_SPAN = 4;
         
         if (count ($nextLevelChildren) > 0)
         {
-            renderRelativesTable($nextLevelChildren);
+            renderRelativesTable($nextLevelChildren, ++$level);
         }
-//        return $nextLevelChildren;
     }
 ?>
 </div>

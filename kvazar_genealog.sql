@@ -122,7 +122,7 @@ CREATE TABLE IF NOT EXISTS `relatives` (
   `father_id` int(10) unsigned DEFAULT NULL,
   `img` varchar(100) DEFAULT NULL,
   `bplace` varchar(150) DEFAULT NULL,
-  `sex` tinyint(1) DEFAULT NULL,
+  `gender` tinyint(1) DEFAULT NULL,
   `descr` varchar(3000) DEFAULT NULL,
   `second_sname` varchar(150) DEFAULT NULL,
   `ddate` date DEFAULT NULL,

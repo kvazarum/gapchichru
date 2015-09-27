@@ -41,7 +41,7 @@ use yii\widgets\ActiveForm;
 
     <?php // echo $form->field($model, 'bplace') ?>
 
-    <?php // echo $form->field($model, 'sex') ?>
+    <?php // echo $form->field($model, 'gender') ?>
 
     <?php // echo $form->field($model, 'descr') ?>
 
