@@ -18,7 +18,7 @@ class RelativesSearch extends Relatives
     public function rules()
     {
         return [
-            [['bday', 'sex', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
+            [['bday', 'gender', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
             [['id',  'sname', 'fname', 'mname', 'bdate', 'bmonth', 'byear', 'img', 'bplace', 'descr', 'second_sname', 'ddate', 'dday', 'dmonth', 'dyear', 'rod', 'last_change', 'hidden', 'grave_picture', 'created_at', 'updated_at', 'mother_id', 'father_id'], 'safe'],
             [['grave_lon', 'grave_lat'], 'number'],
         ];
@@ -62,7 +62,7 @@ class RelativesSearch extends Relatives
             'bday' => $this->bday,
             'mother_id' => $this->mother_id,
             'father_id' => $this->father_id,
-            'sex' => $this->sex,
+            'gender' => $this->gender,
             'ddate' => $this->ddate,
             'cemetery_id' => $this->cemetery_id,
         ]);
