@@ -1,0 +1,8 @@
+User-Agent: *
+Disallow: /common
+Disallow: /classes
+Disallow: /scripts
+Disallow: /relative.php
+Disallow: /pics
+
+Allow: /

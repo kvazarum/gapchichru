@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dc= "http://purl.org/dc/elements/1.1/">
+<rdf:Description rdf:about="http://gapchich.ru/">
+<dc:contributor>Gapchich Igor</dc:contributor>
+<dc:date>2011-03-30</dc:date>
+<dc:description>Site about surname Gapchich.</dc:description>
+<dc:language>RU</dc:language>
+<dc:publisher>Private</dc:publisher>
+<dc:source>http://http://gapchich.ru/</dc:source>
+</rdf:Description>
+</rdf:RDF>
