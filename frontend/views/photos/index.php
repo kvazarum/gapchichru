@@ -50,7 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::tag('a', $name, ['href' => '/relatives/view?id='.$model->relative_id]);
                     }
                 ],
-            'descr',
+            [
+                'attribute'=>'descr',
+                'format' => 'html',
+                'value' => function ($model){
+                    if ($model->descr == null)
+                    {
+                        $result = '';
+                    }
+                    else
+                    {
+                        $result = $model->descr;
+                    }
+                    
+                    return $result;
+                    }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
