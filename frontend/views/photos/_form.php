@@ -3,7 +3,6 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\file\FileInput;
-use frontend\models\Relatives;
 use yii\helpers\Url;
 
 /* @var $this yii\web\View */

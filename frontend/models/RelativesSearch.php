@@ -67,9 +67,9 @@ class RelativesSearch extends Relatives
             'cemetery_id' => $this->cemetery_id,
         ]);
 
-        $query->andFilterWhere(['like', 'sname', $this->sname])
-            ->andFilterWhere(['like', 'fname', $this->fname])
-            ->andFilterWhere(['like', 'mname', $this->mname])
+        $query->orFilterWhere(['like', 'sname', $this->id])
+            ->orFilterWhere(['like', 'fname', $this->id])
+            ->orFilterWhere(['like', 'mname', $this->id])
             ->andFilterWhere(['like', 'bmonth', $this->bmonth])
             ->andFilterWhere(['like', 'byear', $this->byear])
             ->andFilterWhere(['like', 'img', $this->img])

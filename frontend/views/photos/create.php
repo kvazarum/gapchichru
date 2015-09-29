@@ -7,6 +7,7 @@ use yii\helpers\Html;
 /* @var $model frontend\models\Photos */
 
 $this->title = 'Добавить фото, '.$model->relative->fuName;
+$model->relative_id = $model->relative->id;
 $this->params['breadcrumbs'][] = ['label' => 'Фото', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
