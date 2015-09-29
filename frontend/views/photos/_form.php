@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use kartik\file\FileInput;
+use frontend\models\Relatives;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Photos */
@@ -10,16 +13,27 @@ use yii\widgets\ActiveForm;
 
 <div class="photos-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
-    <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
+    <?php // echo $form->field($model, 'file')->fileInput();
+        echo $form->field($model, 'file')->widget(FileInput::classname(), [
+            'options' => [
+                'accept' => 'image/*',
+            ],
+            'pluginOptions' => [
+                'uploadUrl' => Url::to(['/uploads']),
+                'removeClass' => 'btn btn-danger',
+                'initialCaption' => "Имя файла для загрузки"
+            ]
+        ]);
+    ?>
 
     <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
-
-    <?= $form->field($model, 'relative_id')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'relative_id')->hiddenInput() ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Create' : 'Update', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

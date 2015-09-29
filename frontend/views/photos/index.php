@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\PhotosSearch */
@@ -19,12 +20,13 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= Html::a('Добавить', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
 
-    <?= GridView::widget([
+    <?php 
+        Pjax::begin();
+        echo GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-//            'id',
             [
                 'attribute'=>'id',
                 'headerOptions' => [
@@ -40,10 +42,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 },
                 'format' => ['image',['height'=>'40']],
             ],
-//            'relative_id',
             [
                 'attribute'=>'relative_id',
-//                'value' => 'relative.fuName',
                 'format' => 'html',
                 'value' => function ($model){
                     $name = $model->relative->fuName;
@@ -68,6 +68,8 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]); 
+    Pjax::end();        
+    ?>
 
 </div>

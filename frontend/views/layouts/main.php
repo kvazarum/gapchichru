@@ -53,6 +53,7 @@ AppAsset::register($this);
                 ['label' => 'Люди', 'url' => ['/relatives']],
                 ['label' => 'Семьи', 'url' => ['/families']],
                 ['label' => 'Список мест захоронений', 'url' => ['/cemeteries']],
+                ['label' => 'Фото, документы', 'url' => ['/photos']],
                 ['label' => 'Пользователи', 'url' => ['/user']],
             ]];
     }

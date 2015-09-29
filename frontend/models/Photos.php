@@ -11,11 +11,13 @@ use Yii;
  * @property string $name
  * @property string $descr
  * @property string $relative_id
- *
+ * @property string $created_at
  * @property Relatives $relative
  */
 class Photos extends \yii\db\ActiveRecord
 {
+    public $file;
+    
     /**
      * @inheritdoc
      */
@@ -33,6 +35,7 @@ class Photos extends \yii\db\ActiveRecord
             [['name', 'relative_id'], 'required'],
             [['descr'], 'string'],
             [['relative_id'], 'integer'],
+            [['file'], 'file'],
             [['name'], 'string', 'max' => 100],
             [['relative_id'], 'exist', 'skipOnError' => true, 'targetClass' => Relatives::className(), 'targetAttribute' => ['relative_id' => 'id']],
         ];
@@ -45,7 +48,8 @@ class Photos extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Имя файла',
+            'file' => 'Имя файла',
             'descr' => 'Примечание',
             'relative_id' => 'Relative ID',
         ];

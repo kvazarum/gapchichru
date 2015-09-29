@@ -8,6 +8,7 @@ use frontend\models\PhotosSearch;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * PhotosController implements the CRUD actions for Photos model.
@@ -62,9 +63,29 @@ class PhotosController extends Controller
     {
         $model = new Photos();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+        if ($model->load(Yii::$app->request->post())) 
+        {
+            $model->file = UploadedFile::getInstance($model, 'file');
+            $fileName = uniqid() . '.' . $model->file->extension;
+            if ($model->file)
+            {
+                $model->file->saveAs('pics/'. $fileName);
+                $model->name = $fileName;
+                $model->created_at = date('Y-m-d H:i:s');
+                $model->save();
+                return $this->redirect(['/relatives/view', 'id' => $model->relative_id]);
+            }
+            else 
+            {
+                return $this->render('create', [
+                    'model' => $model,
+                ]);                
+            }
+        } 
+        else 
+        {
+            $relative_id = $_REQUEST['relative_id'];
+            $model->relative_id = $relative_id;
             return $this->render('create', [
                 'model' => $model,
             ]);

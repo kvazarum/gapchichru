@@ -171,6 +171,11 @@ const COL_SPAN = 4;
         </div>
 <!-----------------------------carousel----------------------------------------->
         <div class="tab-pane" id="photos">
+            <div>
+                <?php echo Html::a('Добавить фото', ['/photos/create', 'relative_id' => $model->id], ['class' => 'btn btn-primary'])
+                    
+                ?>
+            </div>
             <div class="col-lg-offset-3 col-lg-6 carousel slide" data-ride="carousel" id="image-slider">
                 <ol class="carousel-indicators">
                     <?php
