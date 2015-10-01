@@ -98,8 +98,6 @@ use kartik\select2\Select2;
         ])->label(false); 
     ?>
 
-    <?= $form->field($model, 'last_change')->textInput() ?>
-
     <?= $form->field($model, 'hidden')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'show_pict')->textInput()->widget(CheckboxX::classname(), [

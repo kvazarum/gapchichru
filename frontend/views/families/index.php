@@ -8,7 +8,7 @@ use frontend\models\Relatives;
 /* @var $searchModel frontend\models\FamiliesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Families';
+$this->title = 'Семьи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="families-index">
@@ -37,9 +37,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'wife_id',
                 'label' => 'Мать',
-                'value' => function ($model){
-                    return Relatives::getFullName($model->wife_id);
-                }
+                'value' => 'wife.fuName'
+//                'value' => function ($model){
+//                    return Relatives::getFullName($model->wife_id);
+//                }
             ],                    
             'mdate',
             'descr:ntext',

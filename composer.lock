@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "f2fbb5181ba13dc0b73180e4b99e62a4",
-    "content-hash": "dce60f347416c9aa0858e203ab1819e8",
+    "hash": "ae77e634276c6ccd293482894ee867f8",
+    "content-hash": "840a789a0c6227fe605a79da65c306b1",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -366,6 +366,54 @@
             "time": "2015-09-22 02:28:53"
         },
         {
+            "name": "kartik-v/bootstrap-fileinput",
+            "version": "v4.2.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/bootstrap-fileinput.git",
+                "reference": "0468bbba9c28c1250aca83eba9b33e32ec135f78"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/bootstrap-fileinput/zipball/0468bbba9c28c1250aca83eba9b33e32ec135f78",
+                "reference": "0468bbba9c28c1250aca83eba9b33e32ec135f78",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\plugins\\fileinput\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced HTML 5 file input for Bootstrap 3.x with features for file preview for many file types, multiple selection, ajax uploads, and more.",
+            "homepage": "https://github.com/kartik-v/bootstrap-fileinput",
+            "keywords": [
+                "ajax",
+                "bootstrap",
+                "delete",
+                "file",
+                "image",
+                "input",
+                "jquery",
+                "multiple",
+                "preview",
+                "progress",
+                "upload"
+            ],
+            "time": "2015-09-13 17:39:44"
+        },
+        {
             "name": "kartik-v/yii2-checkbox-x",
             "version": "dev-master",
             "source": {
@@ -458,6 +506,56 @@
                 "yii2"
             ],
             "time": "2015-06-16 05:19:57"
+        },
+        {
+            "name": "kartik-v/yii2-widget-fileinput",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/kartik-v/yii2-widget-fileinput.git",
+                "reference": "084447f095888ddb09a95a1a363842ca87e01c9d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/kartik-v/yii2-widget-fileinput/zipball/084447f095888ddb09a95a1a363842ca87e01c9d",
+                "reference": "084447f095888ddb09a95a1a363842ca87e01c9d",
+                "shasum": ""
+            },
+            "require": {
+                "kartik-v/bootstrap-fileinput": "~4.2",
+                "kartik-v/yii2-krajee-base": "~1.7"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "kartik\\file\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Kartik Visweswaran",
+                    "email": "kartikv2@gmail.com",
+                    "homepage": "http://www.krajee.com/"
+                }
+            ],
+            "description": "An enhanced FileInput widget for Bootstrap 3.x with file preview, multiple selection, and more features (sub repo split from yii2-widgets)",
+            "homepage": "https://github.com/kartik-v/yii2-widget-fileinput",
+            "keywords": [
+                "extension",
+                "file",
+                "form",
+                "input",
+                "jquery",
+                "plugin",
+                "upload",
+                "widget",
+                "yii2"
+            ],
+            "time": "2015-08-17 13:03:50"
         },
         {
             "name": "kartik-v/yii2-widget-select2",
@@ -566,12 +664,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-framework.git",
-                "reference": "b5f356eb58005d604a6eef25a3c422446e5e80c0"
+                "reference": "453115bfb005f8e04ed1506c4431385c0d98ee20"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/b5f356eb58005d604a6eef25a3c422446e5e80c0",
-                "reference": "b5f356eb58005d604a6eef25a3c422446e5e80c0",
+                "url": "https://api.github.com/repos/yiisoft/yii2-framework/zipball/453115bfb005f8e04ed1506c4431385c0d98ee20",
+                "reference": "453115bfb005f8e04ed1506c4431385c0d98ee20",
                 "shasum": ""
             },
             "require": {
@@ -647,7 +745,7 @@
                 "framework",
                 "yii2"
             ],
-            "time": "2015-09-24 23:06:03"
+            "time": "2015-09-29 13:37:05"
         },
         {
             "name": "yiisoft/yii2-bootstrap",
@@ -655,12 +753,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-bootstrap.git",
-                "reference": "57bfe7637a96e7b53012696d1fd557f5a36d0712"
+                "reference": "49c2d45951dd2e98c6217aa071f655016c706846"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/57bfe7637a96e7b53012696d1fd557f5a36d0712",
-                "reference": "57bfe7637a96e7b53012696d1fd557f5a36d0712",
+                "url": "https://api.github.com/repos/yiisoft/yii2-bootstrap/zipball/49c2d45951dd2e98c6217aa071f655016c706846",
+                "reference": "49c2d45951dd2e98c6217aa071f655016c706846",
                 "shasum": ""
             },
             "require": {
@@ -697,7 +795,7 @@
                 "bootstrap",
                 "yii2"
             ],
-            "time": "2015-09-23 17:48:57"
+            "time": "2015-09-29 10:36:47"
         },
         {
             "name": "yiisoft/yii2-composer",
@@ -752,12 +850,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-swiftmailer.git",
-                "reference": "fffcd50b35c53888b40bb7cf9d52f25e1a4e2f43"
+                "reference": "745a045c905cc595ca5698f5cd78fd7a8944c706"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-swiftmailer/zipball/fffcd50b35c53888b40bb7cf9d52f25e1a4e2f43",
-                "reference": "fffcd50b35c53888b40bb7cf9d52f25e1a4e2f43",
+                "url": "https://api.github.com/repos/yiisoft/yii2-swiftmailer/zipball/745a045c905cc595ca5698f5cd78fd7a8944c706",
+                "reference": "745a045c905cc595ca5698f5cd78fd7a8944c706",
                 "shasum": ""
             },
             "require": {
@@ -794,7 +892,7 @@
                 "swiftmailer",
                 "yii2"
             ],
-            "time": "2015-06-18 08:31:25"
+            "time": "2015-09-29 11:01:52"
         }
     ],
     "packages-dev": [
@@ -915,12 +1013,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-codeception.git",
-                "reference": "4428504253562c3de6643776d1bda273088bdeb4"
+                "reference": "d2c91b5a5dbde172f9adbbde10b0a523d1bfc388"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/4428504253562c3de6643776d1bda273088bdeb4",
-                "reference": "4428504253562c3de6643776d1bda273088bdeb4",
+                "url": "https://api.github.com/repos/yiisoft/yii2-codeception/zipball/d2c91b5a5dbde172f9adbbde10b0a523d1bfc388",
+                "reference": "d2c91b5a5dbde172f9adbbde10b0a523d1bfc388",
                 "shasum": ""
             },
             "require": {
@@ -952,7 +1050,7 @@
                 "codeception",
                 "yii2"
             ],
-            "time": "2015-07-28 06:25:07"
+            "time": "2015-09-29 10:36:41"
         },
         {
             "name": "yiisoft/yii2-debug",
@@ -960,12 +1058,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-debug.git",
-                "reference": "daf79cf6f6e32c474c9a476293d199cae64254fb"
+                "reference": "a8eba1bb9a7163df5120fb07c0c000e298a8bcf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/daf79cf6f6e32c474c9a476293d199cae64254fb",
-                "reference": "daf79cf6f6e32c474c9a476293d199cae64254fb",
+                "url": "https://api.github.com/repos/yiisoft/yii2-debug/zipball/a8eba1bb9a7163df5120fb07c0c000e298a8bcf0",
+                "reference": "a8eba1bb9a7163df5120fb07c0c000e298a8bcf0",
                 "shasum": ""
             },
             "require": {
@@ -999,7 +1097,7 @@
                 "debugger",
                 "yii2"
             ],
-            "time": "2015-09-06 19:58:00"
+            "time": "2015-09-29 10:36:38"
         },
         {
             "name": "yiisoft/yii2-faker",
@@ -1007,12 +1105,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-faker.git",
-                "reference": "091bc3c5db9e53031817c6e155c0bd518f3606de"
+                "reference": "6968c97fd2e951e8260d1ccc6f5e2109407290eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/091bc3c5db9e53031817c6e155c0bd518f3606de",
-                "reference": "091bc3c5db9e53031817c6e155c0bd518f3606de",
+                "url": "https://api.github.com/repos/yiisoft/yii2-faker/zipball/6968c97fd2e951e8260d1ccc6f5e2109407290eb",
+                "reference": "6968c97fd2e951e8260d1ccc6f5e2109407290eb",
                 "shasum": ""
             },
             "require": {
@@ -1046,7 +1144,7 @@
                 "faker",
                 "yii2"
             ],
-            "time": "2015-07-28 06:25:23"
+            "time": "2015-09-29 10:49:25"
         },
         {
             "name": "yiisoft/yii2-gii",
@@ -1054,12 +1152,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/yiisoft/yii2-gii.git",
-                "reference": "3816e084ed2f96faeecbdb83266fb4212c553648"
+                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/3816e084ed2f96faeecbdb83266fb4212c553648",
-                "reference": "3816e084ed2f96faeecbdb83266fb4212c553648",
+                "url": "https://api.github.com/repos/yiisoft/yii2-gii/zipball/fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
+                "reference": "fbd134b1cbc06fa149cc546cc98b4e701ba08cb0",
                 "shasum": ""
             },
             "require": {
@@ -1099,13 +1197,14 @@
                 "gii",
                 "yii2"
             ],
-            "time": "2015-09-24 22:57:56"
+            "time": "2015-09-29 10:49:23"
         }
     ],
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "kartik-v/yii2-widget-select2": 20
+        "kartik-v/yii2-widget-select2": 20,
+        "kartik-v/yii2-widget-fileinput": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

@@ -132,6 +132,11 @@ class Relatives extends \yii\db\ActiveRecord
         return self::getFullName($this->id);
     }
     
+/**
+ * Получение даты рождения
+ * @param integer $id
+ * @return string
+ */    
     public static function getBDate($id)
     {
         $rel = Relatives::findOne($id);
@@ -142,7 +147,14 @@ class Relatives extends \yii\db\ActiveRecord
         }
         if ($rel->bmonth != null)
         {
-            $text .= $rel->bmonth.'.';
+            if ($rel->bmonth<10)
+            {
+                $text .= '0'.$rel->bmonth.'.';
+            }
+            else 
+            {
+                $text .= $rel->bmonth.'.';
+            }
         }
         if ($rel->byear != null)
         {
@@ -151,11 +163,36 @@ class Relatives extends \yii\db\ActiveRecord
         return $text;
     }
     
+    public function getDDate()
+    {
+        $text = '';
+        if ($this->dday != null)
+        {
+            $text = $this->dday.'.';
+        }
+        if ($this->dmonth != null)
+        {
+            if ($this->dmonth<10)
+            {
+                $text .= '0'.$this->dmonth.'.';
+            }
+            else 
+            {
+                $text .= $this->dmonth.'.';
+            }
+        }
+        if ($this->dyear != null)
+        {
+            $text .= $this->dyear;
+        }
+        return $text;
+    }
+
     public static function getAvatar($id)
     {
         $rel = Relatives::findOne($id);
         $result = '';
-        if ($rel->img != NULL)
+        if ($rel->hasAvatar())
         {
             $result = '<img src="/pics/thumb/30_'.$rel->img.'">';
         }
@@ -216,6 +253,14 @@ class Relatives extends \yii\db\ActiveRecord
         echo Html::endTag('tr');
     }
     
+    public function hasAvatar()
+    {
+        $fileName = 'pics/'.$this->img;
+        $result = file_exists($fileName);
+        return $result;
+
+    }    
+    
     public function hasGraveCoordinates()
     {
         $result = false;
@@ -225,8 +270,8 @@ class Relatives extends \yii\db\ActiveRecord
         }
         return $result;        
     }
-    
-    public function hasChildren()
+
+        public function hasChildren()
     {
         if ($this->gender)
         {

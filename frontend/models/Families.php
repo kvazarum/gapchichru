@@ -34,8 +34,8 @@ class Families extends \yii\db\ActiveRecord
     {
         return [
             [['husband_id', 'wife_id', 'descr', 'created_at', 'updated_at'], 'required'],
-            [['husband_id', 'wife_id'], 'integer'],
-            [['mdate', 'created_at', 'updated_at'], 'safe'],
+//            [[], 'integer'],
+            [['mdate', 'created_at', 'updated_at', 'husband_id', 'wife_id'], 'safe'],
             [['descr'], 'string']
         ];
     }
@@ -70,7 +70,7 @@ class Families extends \yii\db\ActiveRecord
     public function getHusband()
     {
         return $this->hasOne(Relatives::className(), ['id' => 'husband_id']);
-    }     
+    }    
     
 /**
  * 

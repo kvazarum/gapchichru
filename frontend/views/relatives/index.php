@@ -42,9 +42,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $result;
                 }                
             ],
-             'bday',
-             'bmonth',
-             'byear',
+//             'bday',
+            [
+                'attribute'=>'bday',
+                'label' => 'Дата рождения',
+                'value' => function($model){
+                    return Relatives::getBDate($model->id);
+                }
+            ],
+//             'bmonth',
+//             'byear',
             [
                 'attribute'=>'mother_id',
                 'format' => 'html',
@@ -103,11 +110,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => function($model){
                     if ($model->gender == 0)
                     {
-                        $result = '<span class="label label-primary">Мужской</span>';
+                        $result = '<span class="label label-man">Мужской</span>';
                     }
                     else
                     {
-                        $result = '<span class="label label-danger">Женский</span>';
+                        $result = '<span class="label label-woman">Женский</span>';
                     }
                     return $result;
                 }                

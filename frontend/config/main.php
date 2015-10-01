@@ -28,6 +28,10 @@ return [
                 ]                
             ]
 //            'enableStrictParsing' => true,
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user','moder','admin'], //здесь прописываем роли
         ],        
         'user' => [
             'identityClass' => 'common\models\User',
