@@ -88,6 +88,7 @@ class Relatives extends \yii\db\ActiveRecord
             'sname' => 'Фамилия',
             'fname' => 'Имя',
             'mname' => 'Отчество',
+            'fullName' => 'Фамилия Имя Отчество',
             'bdate' => 'Bdate',
             'bday' => 'День рождения',
             'bmonth' => 'Месяц рождения',
@@ -99,7 +100,6 @@ class Relatives extends \yii\db\ActiveRecord
             'gender' => 'Пол',
             'descr' => 'Доп. сведения',
             'second_sname' => 'Другие фамилии',
-            
             'dday' => 'День смерти',
             'dmonth' => 'Месяц смерти',
             'dyear' => 'Год смерти',
@@ -116,20 +116,15 @@ class Relatives extends \yii\db\ActiveRecord
         ];
     }
     
-    public static function getFullName($id)
+    
+    public function getFullName()
     {
-        $rel = Relatives::findOne($id);
-        $result = $rel->sname.' '.$rel->fname.' '.$rel->mname;
-        if ($rel->second_sname != '')
+        $result = $this->sname.' '.$this->fname.' '.$this->mname;
+        if ($this->second_sname != '')
         {
-            $result .= ' ('.$rel->second_sname.')';
+            $result .= ' ('.$this->second_sname.')';
         }
         return $result;
-    }
-    
-    public function getFuName()
-    {
-        return self::getFullName($this->id);
     }
     
 /**
@@ -208,7 +203,7 @@ class Relatives extends \yii\db\ActiveRecord
         echo Html::beginTag('tr', ['class' => 'detail']);
             if ($id > 0)
             {
-                $text = Html::a(self::getFullName($id), '/relatives/view?id='.$id, ['title' => $rel->descr]);
+                $text = Html::a($rel->getFullName(), '/relatives/view?id='.$id, ['title' => $rel->descr]);
             }
             else
             {
@@ -242,7 +237,7 @@ class Relatives extends \yii\db\ActiveRecord
                 $text = self::getBDate($id);
             }
             else { $text = ''; }
-            echo Html::tag('td', $text, ['class' => 'col-lg-2']);
+             echo Html::tag('td', $text, ['class' => 'col-lg-2']);
             //  аватар
             if ($id != null)
             {
@@ -255,8 +250,15 @@ class Relatives extends \yii\db\ActiveRecord
     
     public function hasAvatar()
     {
-        $fileName = 'pics/'.$this->img;
-        $result = file_exists($fileName);
+        if (!is_null($this->img))
+        {
+            $result = true;
+        }
+        else
+        {
+            $result = false;
+        }
+        
         return $result;
 
     }    
