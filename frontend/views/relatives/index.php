@@ -29,20 +29,17 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
-                'attribute'=>'id',
-                'label' => 'Фамилия Имя Отчество',
+                'attribute'=>'fullName',
                 'format' => 'html',
-//                'value' => 'fuName'
                 'value' => function($model){
                     
-                    $result = Relatives::getFullName($model->id);
+                    $result = $model->getFullName();
                     $url = '/relatives/view?id='.$model->id;
                     $options = ['title' => $model->descr, 'target' => '_blank'];
                     $result = Html::a($result, $url, $options);
                     return $result;
                 }                
             ],
-//             'bday',
             [
                 'attribute'=>'bday',
                 'label' => 'Дата рождения',
