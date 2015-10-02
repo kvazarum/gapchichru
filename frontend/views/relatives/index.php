@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 use frontend\models\Relatives;
 use yii\widgets\Pjax;
+use yii\widgets\ListView;
 
 /* @var $this yii\web\View */
 /* @var $searchModel frontend\models\RelativesSearch */
@@ -42,13 +43,13 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'bday',
+                'format' => 'html',
                 'label' => 'Дата рождения',
                 'value' => function($model){
-                    return Relatives::getBDate($model->id);
+                    $result = '<div style="float: right;">'.Relatives::getBDate($model->id).'</div>';
+                    return $result;
                 }
             ],
-//             'bmonth',
-//             'byear',
             [
                 'attribute'=>'mother_id',
                 'format' => 'html',
@@ -96,7 +97,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }                
             ],                    
             // 'img',
-            // 'bplace',
             [
                 'attribute'=>'gender',
                 'format' => 'html',
@@ -115,30 +115,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                     return $result;
                 }                
-            ],            
-//             'descr',
+            ],
              'second_sname',
-            // 'ddate',
-            // 'dday',
-            // 'dmonth',
-            // 'dyear',
-            // 'rod',
-            // 'visible',
-            // 'last_change',
-//            ['attribute'=>'hidden','visible'=>!Yii::$app->user->isGuest], 
-            // 'hidden',
-            // 'show_pict',
-            // 'grave_lon',
-            // 'grave_lat',
-            // 'cemetery_id',
-            // 'grave_picture',
-            // 'created_at',
-            // 'updated_at',
-
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); 
-    Pjax::end();        
+    Pjax::end();
     ?>
 
 </div>
