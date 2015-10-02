@@ -12,6 +12,7 @@ use frontend\models\Relatives;
  */
 class RelativesSearch extends Relatives
 {
+    public $fullName;
     /**
      * @inheritdoc
      */
@@ -19,7 +20,7 @@ class RelativesSearch extends Relatives
     {
         return [
             [['bday', 'gender', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
-            [['id',  'sname', 'fname', 'mname', 'bdate', 'bmonth', 'byear', 'img', 'bplace', 'descr', 'second_sname', 'ddate', 'dday', 'dmonth', 'dyear', 'rod', 'last_change', 'hidden', 'grave_picture', 'created_at', 'updated_at', 'mother_id', 'father_id'], 'safe'],
+            [['id', 'fullName',  'sname', 'fname', 'mname', 'bdate', 'bmonth', 'byear', 'img', 'bplace', 'descr', 'second_sname', 'ddate', 'dday', 'dmonth', 'dyear', 'rod', 'last_change', 'hidden', 'grave_picture', 'created_at', 'updated_at', 'mother_id', 'father_id'], 'safe'],
             [['grave_lon', 'grave_lat'], 'number'],
         ];
     }
@@ -56,6 +57,8 @@ class RelativesSearch extends Relatives
             return $dataProvider;
         }
 
+        $query->andWhere('fname LIKE "%' . $this->fullName . '%" OR sname LIKE "%' . $this->fullName . '%" OR mname LIKE "%' . $this->fullName . '%"');
+        
         $query->andFilterWhere([
             'id' => $this->id,
             'bdate' => $this->bdate,
