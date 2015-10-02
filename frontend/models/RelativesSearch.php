@@ -43,7 +43,7 @@ class RelativesSearch extends Relatives
      */
     public function search($params)
     {
-        $query = Relatives::find();
+        $query = Relatives::find()->orderBy('sname', 'fname', 'mname');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
