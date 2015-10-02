@@ -48,6 +48,17 @@ class RelativesSearch extends Relatives
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);
+        
+        $dataProvider->setSort([
+            'attributes' => [
+                'fullName' => [
+                    'asc' => ['sname' => SORT_ASC, 'fname' => SORT_ASC],
+                    'desc' => ['sname' => SORT_DESC, 'fname' => SORT_DESC],
+//                    'label' => 'Full Name',
+                    'default' => SORT_ASC
+                ],
+            ]
+        ]);        
 
         $this->load($params);
 
@@ -70,10 +81,7 @@ class RelativesSearch extends Relatives
             'cemetery_id' => $this->cemetery_id,
         ]);
 
-        $query->orFilterWhere(['like', 'sname', $this->id])
-            ->orFilterWhere(['like', 'fname', $this->id])
-            ->orFilterWhere(['like', 'mname', $this->id])
-            ->andFilterWhere(['like', 'bmonth', $this->bmonth])
+        $query->andFilterWhere(['like', 'bmonth', $this->bmonth])
             ->andFilterWhere(['like', 'byear', $this->byear])
             ->andFilterWhere(['like', 'img', $this->img])
             ->andFilterWhere(['like', 'bplace', $this->bplace])
