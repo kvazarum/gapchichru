@@ -116,7 +116,10 @@ class Relatives extends \yii\db\ActiveRecord
         ];
     }
     
-    
+/**
+ * Получение полного имени человека
+ * @return string полное имя в формате Фамилия Имя Отчество
+ */    
     public function getFullName()
     {
         $result = $this->sname.' '.$this->fname.' '.$this->mname;
@@ -153,7 +156,7 @@ class Relatives extends \yii\db\ActiveRecord
         }
         if ($rel->byear != null)
         {
-            $text .= $rel->byear;
+            $text .= $rel->byear.'г.';
         }
         return $text;
     }
@@ -234,10 +237,10 @@ class Relatives extends \yii\db\ActiveRecord
             //  дата рождения
             if ($id != null)
             {
-                $text = self::getBDate($id);
+                $text = '<div style="float: right;">'.self::getBDate($id).'</div>';
             }
             else { $text = ''; }
-             echo Html::tag('td', $text, ['class' => 'col-lg-2']);
+            echo Html::tag('td', $text, ['class' => 'col-lg-2']);
             //  аватар
             if ($id != null)
             {
@@ -288,6 +291,10 @@ class Relatives extends \yii\db\ActiveRecord
         return $result;
     }
     
+/**
+ * Получение родителей человека
+ * @return array
+ */    
     public function getParents()
     {
         $result = FALSE;
@@ -301,4 +308,25 @@ class Relatives extends \yii\db\ActiveRecord
         }
         return $result;
     }
+    
+
+    public function getFather() {
+        $result = $this->hasOne(self::classname(),['father_id' => 'id'])
+                -> from(self::tableName() . ' AS father');
+        return $result;
+    }
+    
+    public function getMother() {
+        $result = $this->hasOne(self::classname(),['mother_id' => 'id'])
+                -> from(self::tableName() . ' AS mother');
+        return $result;
+    }    
+    
+    public function getMotherName() {
+        return $this->mother->fullName;
+    }
+    
+    public function getFatherName() {
+        return $this->father->fullName;
+    }    
 }
