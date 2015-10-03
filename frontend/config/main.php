@@ -10,6 +10,7 @@ return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
+    'language' => 'ru-RU',
     'modules' => [       
     ],
     'controllerNamespace' => 'frontend\controllers',
@@ -31,7 +32,7 @@ return [
         ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
-            'defaultRoles' => ['user','moder','admin'], //здесь прописываем роли
+            'defaultRoles' => ['user','moder','admin'],
         ],        
         'user' => [
             'identityClass' => 'common\models\User',
