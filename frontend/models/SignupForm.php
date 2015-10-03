@@ -12,6 +12,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+    public $status;
 
     /**
      * @inheritdoc
@@ -32,6 +33,7 @@ class SignupForm extends Model
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'emailActivation'],            
         ];
     }
 
@@ -48,6 +50,10 @@ class SignupForm extends Model
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
+            if ($this->scenario === 'emailActivation')
+            {
+                $user->generateSecretKey();
+            }
             if ($user->save()) {
                 
                 $auth = Yii::$app->authManager;
@@ -59,5 +65,14 @@ class SignupForm extends Model
         }
 
         return null;
+    }
+    
+    public function sendActivationEmail($user)
+    {
+        return Yii::$app->mailer->compose('activationEmail', ['user' => $user])
+            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name.' (отправлено роботом).'])
+            ->setTo($this->email)
+            ->setSubject('Активация для '.Yii::$app->name)
+            ->send();
     }
 }

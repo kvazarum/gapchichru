@@ -14,6 +14,7 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $activate_key
  * @property string $email
  * @property string $auth_key
  * @property integer $status
@@ -24,11 +25,14 @@ use yii\web\IdentityInterface;
 class User extends ActiveRecord implements IdentityInterface
 {
     const STATUS_DELETED = 0;
+    const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 10;
     
     const ROLE_USER = 1;
     const ROLE_MODER = 5;
-    const ROLE_ADMIN = 10;    
+    const ROLE_ADMIN = 10;  
+    
+    public $role;
 
     /**
      * @inheritdoc
@@ -54,7 +58,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
         ];
     }
@@ -120,6 +124,41 @@ class User extends ActiveRecord implements IdentityInterface
         $expire = Yii::$app->params['user.passwordResetTokenExpire'];
         return $timestamp + $expire >= time();
     }
+    
+   /**
+     * Finds user by secret key
+     *
+     * @param string $key secret key
+     * @return static|null
+     */
+    public static function findByActivateKey($key)
+    {
+        if (!static::isActivateKeyValid($key)) {
+            return null;
+        }
+
+        return static::findOne([
+            'activate_key' => $key,
+            'status' => self::STATUS_ACTIVE,
+        ]);
+    }    
+    
+    /**
+     * Finds out if secret key is valid
+     *
+     * @param string $key secret key
+     * @return boolean
+     */
+    public static function isActivateKeyValid($key)
+    {
+        if (empty($key)) {
+            return false;
+        }
+
+        $timestamp = (int) substr($key, strrpos($key, '_') + 1);
+        $expire = Yii::$app->params['user.activateKeyExpire'];
+        return $timestamp + $expire >= time();
+    }        
 
     /**
      * @inheritdoc
@@ -181,6 +220,14 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = Yii::$app->security->generateRandomString() . '_' . time();
     }
+    
+    /**
+     * Generates new password activate key
+     */
+    public function generateSecretKey()
+    {
+        $this->activate_key = Yii::$app->security->generateRandomString() . '_' . time();
+    }    
 
     /**
      * Removes password reset token
@@ -189,4 +236,12 @@ class User extends ActiveRecord implements IdentityInterface
     {
         $this->password_reset_token = null;
     }
+    
+    /**
+     * Removes secret key
+     */
+    public function removeSecretKey()
+    {
+        $this->activate_key = null;
+    }    
 }
