@@ -9,6 +9,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
+use yii\widgets\ActiveForm;
 
 AppAsset::register($this);
 ?>
@@ -35,13 +36,34 @@ AppAsset::register($this);
             'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
+    ActiveForm::begin(
+        [
+            'action' => ['relatives/index'],
+            'method' => 'get',
+            'options' => [
+                'class' => 'navbar-form navbar-right'
+            ]
+        ]
+    );
+    echo Html::beginTag('div', ['class' => 'inbox-group inbox-group-sm']);
+        echo Html::input(
+            'type: text',
+            'search',
+            '',
+            [
+                'placeholder' => 'Найти ...',
+                'class' => 'form-control'
+            ]
+        );
+    echo Html::endTag('div');
+    ActiveForm::end();
     $menuItems = [
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'О сайте', 'url' => ['/site/about']],
         ['label' => 'Сообщение', 'url' => ['/site/contact']],
     ];
     if (Yii::$app->user->isGuest) {
-//        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
         $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
     } else {
         $menuItems[] = [
@@ -58,6 +80,7 @@ AppAsset::register($this);
                 ['label' => 'Пользователи', 'url' => ['/user']],
             ]];
     }
+    
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => $menuItems,
