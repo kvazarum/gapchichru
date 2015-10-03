@@ -46,7 +46,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'relative_id',
                 'format' => 'html',
                 'value' => function ($model){
-                    $name = $model->relative->fuName;
+                    $name = $model->relative->fullName;
                     return Html::tag('a', $name, ['href' => '/relatives/view?id='.$model->relative_id]);
                     }
                 ],

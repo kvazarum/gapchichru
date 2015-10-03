@@ -1,4 +1,5 @@
 <?php
 return [
-    'adminEmail' => 'igor.kvazar@gmail.com',
+    'adminEmail' => 'webmaster@gapchich.ru',
+    'emailActivation' => true,                  //активизация через email
 ];

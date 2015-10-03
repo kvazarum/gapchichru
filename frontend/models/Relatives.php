@@ -39,14 +39,12 @@ use yii\helpers\Html;
  * @property string $grave_picture
  * @property string $created_at
  * @property string $updated_at
- * @property string $fuName
  */
 class Relatives extends \yii\db\ActiveRecord
-{
-//    public $fuName;
-    
+{    
     const MAN = 0;
     const WOMAN = 1;
+    public $fullName;
 
     /**
      * @inheritdoc
@@ -63,7 +61,7 @@ class Relatives extends \yii\db\ActiveRecord
     {
         return [
             [['index', 'rod', 'visible', 'last_change', 'created_at', 'updated_at'], 'required'],
-            [['bdate', 'ddate', 'last_change', 'created_at', 'updated_at', 'fuName'], 'safe'],
+            [['bdate', 'ddate', 'last_change', 'created_at', 'updated_at', 'fullName'], 'safe'],
             [['bday', 'mother_id', 'father_id', 'gender', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
             [['grave_lon', 'grave_lat'], 'number'],
             [['index'], 'string', 'max' => 40],
@@ -122,7 +120,33 @@ class Relatives extends \yii\db\ActiveRecord
  */    
     public function getFullName()
     {
-        $result = $this->sname.' '.$this->fname.' '.$this->mname;
+        if (!Yii::$app->user->isGuest)
+        {
+            $fname = $this->fname;
+            $mname = $this->mname;
+        }
+        else
+        {
+            if (strlen($this->fname) > 1)
+            {
+                $fname = mb_substr($this->fname, 0, 1).'.';
+            }
+            else
+            {
+                $fname = "";
+            }
+            if (strlen($this->mname) > 1)
+            {
+                $mname = mb_substr($this->mname, 0, 1).'.';
+            }
+            else
+            {
+                $mname = "";
+            }             
+        }
+        
+        
+        $result = $this->sname.' '.$fname.' '.$mname;
         if ($this->second_sname != '')
         {
             $result .= ' ('.$this->second_sname.')';
@@ -139,24 +163,35 @@ class Relatives extends \yii\db\ActiveRecord
     {
         $rel = Relatives::findOne($id);
         $text = '';
-        if ($rel->bday != null)
+//        if (Yii::$app->user->can('user'))
+        if (Yii::$app->user->can('user'))
         {
-            $text = $rel->bday.'.';
-        }
-        if ($rel->bmonth != null)
-        {
-            if ($rel->bmonth<10)
+            if ($rel->bday != null)
             {
-                $text .= '0'.$rel->bmonth.'.';
+                $text = $rel->bday.'.';
             }
-            else 
+            if ($rel->bmonth != null)
             {
-                $text .= $rel->bmonth.'.';
+                if ($rel->bmonth<10)
+                {
+                    $text .= '0'.$rel->bmonth.'.';
+                }
+                else 
+                {
+                    $text .= $rel->bmonth.'.';
+                }
+            }
+            if ($rel->byear != null)
+            {
+                $text .= $rel->byear.'г.';
             }
         }
-        if ($rel->byear != null)
+        else
         {
-            $text .= $rel->byear.'г.';
+            if ($rel->byear != null)
+            {
+                $text = $rel->byear.'г.';
+            }            
         }
         return $text;
     }
@@ -242,7 +277,7 @@ class Relatives extends \yii\db\ActiveRecord
             else { $text = ''; }
             echo Html::tag('td', $text, ['class' => 'col-lg-2']);
             //  аватар
-            if ($id != null)
+            if ($id != null && !Yii::$app->user->isGuest)
             {
                 $text = self::getAvatar($id);
             }

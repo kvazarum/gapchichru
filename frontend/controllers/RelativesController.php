@@ -34,11 +34,19 @@ class RelativesController extends Controller
     {
         $searchModel = new RelativesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
+        if (Yii::$app->user->can('user'))
+        {
+            
+            return $this->render('index', [
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+            ]);
+        }
+        else 
+        {
+            Yii::$app->session->setFlash('error', 'У вас нет прав на просмотр запрошенной страницы.');
+            return $this->render('/site/index');
+        }
     }
 
     /**
@@ -89,7 +97,12 @@ class RelativesController extends Controller
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->img == '')
+            {
+                $model->img = null;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [

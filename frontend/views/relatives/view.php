@@ -10,7 +10,7 @@ use frontend\models\Cemeteries;
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatives */
 
-$this->title = Relatives::getFullName($model->id);
+$this->title = $model->getFullName();
 $this->params['breadcrumbs'][] = ['label' => 'Родственники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -35,7 +35,14 @@ const COL_SPAN = 4;
         <li class="active"><a href="#main" data-toggle='tab'>Основные данные</a></li>
         <li><a href="#parents" data-toggle='tab'>Родители</a></li>
         <li><a href="#families" data-toggle='tab'>Семейная информация</a></li>
-        <li><a href="#photos" data-toggle='tab'>Документы и фото</a></li>
+        
+        <?php 
+            if (!Yii::$app->user->isGuest)
+            {
+                echo '<li><a href="#photos" data-toggle="tab">Документы и фото</a></li>'; 
+            }
+        ?>
+        
         <li><a href="#ancestors" data-toggle='tab'>Предки</a></li>
         <li><a href="#descendants" data-toggle='tab'>Потомки</a></li>
         <?php
@@ -55,7 +62,7 @@ const COL_SPAN = 4;
             [
                 'attribute'=>'img',
                 'label' => 'Изображение',
-                'value' => $model->hasAvatar() ? '/pics/'.$model->img : '/pics/pics/no_data.png',
+                'value' => !is_null($model->img) ? '/pics/'.$model->img : '/pics/pics/no_data.png',
                 'format' => ['image',['height'=>'200']],
                 'visible'=> !Yii::$app->user->isGuest,
             ],            
@@ -118,7 +125,7 @@ const COL_SPAN = 4;
                     {
                         $spouse = $families[$i]->wife_id;
                     }
-                    $spouseName = Relatives::getFullName($spouse);
+                    $spouseName = Relatives::findOne($spouse);
                     echo Html::beginTag('table', ['class' => 'table table-striped table-bordered detail-view']);
                         echo Html::beginTag('tr', ['class' => 'info']);
                         $father = $families[$i]->husband_id;
@@ -259,7 +266,7 @@ const COL_SPAN = 4;
                         {
                             var lat = '.$model->grave_lat.';
                             var lon = '.$model->grave_lon.';
-                            var name = "'.$model->getFuName().'";
+                            var name = "'.$model->getFullName().'";
                             var image = "/pics/icons/headstone.png";
 
                             var myLatlng = new google.maps.LatLng(lat,lon);

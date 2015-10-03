@@ -38,8 +38,8 @@ AppAsset::register($this);
     ]);
     ActiveForm::begin(
         [
-            'action' => ['relatives/index'],
-            'method' => 'get',
+            'action' => ['search/index'],
+//            'method' => 'post',
             'options' => [
                 'class' => 'navbar-form navbar-right'
             ]
@@ -61,24 +61,28 @@ AppAsset::register($this);
         ['label' => 'Главная', 'url' => ['/site/index']],
         ['label' => 'О сайте', 'url' => ['/site/about']],
         ['label' => 'Сообщение', 'url' => ['/site/contact']],
+        ['label' => 'История фамилии', 'url' => ['/site/history']],
     ];
     if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
+        $menuItems[] = ['label' => 'Регистрация', 'url' => ['/site/signup']];
+        $menuItems[] = ['label' => 'Вход', 'url' => ['/site/login']];
     } else {
         $menuItems[] = [
-            'label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+            'label' => 'Выход (' . Yii::$app->user->identity->username . ')',
             'url' => ['/site/logout'],
             'linkOptions' => ['data-method' => 'post']
         ];
-        $menuItems[] = ['label' => 'Справочники', 
-            "items" => [
-                ['label' => 'Люди', 'url' => ['/relatives']],
-                ['label' => 'Семьи', 'url' => ['/families']],
-                ['label' => 'Список мест захоронений', 'url' => ['/cemeteries']],
-                ['label' => 'Фото, документы', 'url' => ['/photos']],
-                ['label' => 'Пользователи', 'url' => ['/user']],
-            ]];
+        if (Yii::$app->user->can('moder'))
+        {
+            $menuItems[] = ['label' => 'Справочники', 
+                "items" => [
+                    ['label' => 'Люди', 'url' => ['/relatives']],
+                    ['label' => 'Семьи', 'url' => ['/families']],
+                    ['label' => 'Список мест захоронений', 'url' => ['/cemeteries']],
+                    ['label' => 'Фото, документы', 'url' => ['/photos']],
+                    ['label' => 'Пользователи', 'url' => ['/user']],
+                ]];
+        }
     }
     
     echo Nav::widget([

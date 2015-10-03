@@ -31,13 +31,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute' => 'husband_id',
                 'label' => 'Отец',
                 'value' => function ($model){
-                    return Relatives::getFullName($model->husband_id);
+                    return $model->getFullName();
                 }
             ],
             [
                 'attribute' => 'wife_id',
                 'label' => 'Мать',
-                'value' => 'wife.fuName'
+                'value' => 'wife.fullName'
 //                'value' => function ($model){
 //                    return Relatives::getFullName($model->wife_id);
 //                }

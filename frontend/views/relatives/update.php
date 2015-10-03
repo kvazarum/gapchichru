@@ -5,9 +5,9 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatives */
 
-$this->title = 'Изменить данные: ' . ' ' . $model->fuName;
+$this->title = 'Изменить данные: ' . ' ' . $model->fullName;
 $this->params['breadcrumbs'][] = ['label' => 'Общий список', 'url' => ['index']];
-$this->params['breadcrumbs'][] = ['label' => $model->fuName, 'url' => ['view', 'id' => $model->id]];
+$this->params['breadcrumbs'][] = ['label' => $model->fullName, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = 'Изменить';
 ?>
 <div class="relatives-update">

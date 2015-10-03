@@ -12,7 +12,7 @@ class RbacController extends Controller
 //        $auth = Yii::$app->authManager;
         $auth = new DbManager;
         $auth->removeAll(); //удаляем старые данные
-        //Создадим для примера права для доступа к админке
+        //Создадим права для доступа к админке
         $dashboard = $auth->createPermission('dashboard');
         $dashboard->description = 'Админ панель';
         $auth->add($dashboard);
