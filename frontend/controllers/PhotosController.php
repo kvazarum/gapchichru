@@ -9,6 +9,7 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\web\UploadedFile;
+use yii\imagine\Image;
 
 /**
  * PhotosController implements the CRUD actions for Photos model.
@@ -66,12 +67,23 @@ class PhotosController extends Controller
         if ($model->load(Yii::$app->request->post())) 
         {
             $model->file = UploadedFile::getInstance($model, 'file');
+            
             $fileName = uniqid() . '.' . $model->file->extension;
             if ($model->file)
             {
                 $model->file->saveAs('pics/'. $fileName);
                 $model->name = $fileName;
                 $model->created_at = date('Y-m-d H:i:s');
+                if ($model->isAvatar)
+                {
+                    $model->relative->setImage($fileName);
+                    $model->relative->save();
+                }
+//                $size = getimagesize('pics/'. $fileName);
+//                $ratio = $size[0]/$size[1];
+//                $width = 30;
+//                $height = round($width/$ratio);
+//                Image::thumbnail('pics/'. $fileName, $width, $height)->save('/pics/thumb/30_'.$fileName);                
                 $model->save();
                 return $this->redirect(['/relatives/view', 'id' => $model->relative_id]);
             }
@@ -119,8 +131,9 @@ class PhotosController extends Controller
      */
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $record = $this->findModel($id);
+        unlink('pics/'.$record->name);
+        $record->delete();
         return $this->redirect(['index']);
     }
 
