@@ -17,7 +17,7 @@ class UserRoleRule extends Rule
             } elseif ($item->name === 'moder') {
                 //moder является потомком admin, который получает его права
                 return isset($roles['admin']) || isset($roles[$item->name]);
-            } 
+            }
             elseif ($item->name === 'user') {
                 return isset($roles['admin']) || isset($roles['moder']) || isset($roles[$item->name]);
             }
