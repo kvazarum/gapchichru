@@ -14,13 +14,13 @@ use yii\web\IdentityInterface;
  * @property string $username
  * @property string $password_hash
  * @property string $password_reset_token
- * @property string $activate_key
  * @property string $email
  * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $activate_key 
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -30,9 +30,7 @@ class User extends ActiveRecord implements IdentityInterface
     
     const ROLE_USER = 1;
     const ROLE_MODER = 5;
-    const ROLE_ADMIN = 10;  
-    
-    public $role;
+    const ROLE_ADMIN = 10;
 
     /**
      * @inheritdoc
@@ -224,7 +222,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Generates new password activate key
      */
-    public function generateSecretKey()
+    public function generateActivateKey()
     {
         $this->activate_key = Yii::$app->security->generateRandomString() . '_' . time();
     }    
