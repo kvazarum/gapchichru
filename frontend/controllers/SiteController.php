@@ -6,7 +6,7 @@ use frontend\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use common\models\ContactForm;
+use frontend\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -29,7 +29,7 @@ class SiteController extends Controller
                 'only' => ['logout', 'signup'],
                 'rules' => [
                     [
-                        'actions' => ['signup', 'activate-account'],
+                        'actions' => ['signup'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -85,7 +85,6 @@ class SiteController extends Controller
         if (!\Yii::$app->user->isGuest) {
             return $this->goHome();
         }
-
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
             return $this->goBack();
@@ -118,9 +117,9 @@ class SiteController extends Controller
         $model = new ContactForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
+                Yii::$app->session->setFlash('success', 'Спасибо за Ваше сообщение. Мы ответим вам при первой возможности.');
             } else {
-                Yii::$app->session->setFlash('error', 'Произошла ошибка при отправке сообщения.');
+                Yii::$app->session->setFlash('error', 'При отправке сообщения произошла ошибка.');
             }
 
             return $this->refresh();
@@ -148,39 +147,14 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-//        $model = new SignupForm();
-//        if ($model->load(Yii::$app->request->post())) {
-//            if ($user = $model->signup()) {
-//                if (Yii::$app->getUser()->login($user)) {
-//                    return $this->goHome();
-//                }
-//            }
-//        }
-        
-        $emailActivation = Yii::$app->params['emailActivation'];
-        $model = $emailActivation ? new SignupForm(['scenario' => 'emailActivation']) : new SignupForm();
-        
-        if ($model->load(Yii::$app->request->post()) && $model->validate()):
-            if ($user = $model->signup()):
-                if ($user->status === User::STATUS_ACTIVE):
-                    if (Yii::$app->getUser()->login($user)):
-                        return $this->goHome();
-                    endif;
-                else:
-                    if($model->sendActivationEmail($user)):
-                        Yii::$app->session->setFlash('success', 'Письмо с активацией отправлено на емайл <strong>'.Html::encode($user->email).'</strong> (проверьте папку спам).');
-                    else:
-                        Yii::$app->session->setFlash('error', 'Ошибка. Письмо не отправлено.');
-                        Yii::error('Ошибка отправки письма.');
-                    endif;
-                    return $this->refresh();
-                endif;
-            else:
-                Yii::$app->session->setFlash('error', 'Возникла ошибка при регистрации.');
-                Yii::error('Ошибка при регистрации');
-                return $this->refresh();
-            endif;
-        endif;        
+        $model = new SignupForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($user = $model->signup()) {
+                if (Yii::$app->getUser()->login($user)) {
+                    return $this->goHome();
+                }
+            }
+        }
 
         return $this->render('signup', [
             'model' => $model,
@@ -226,7 +200,7 @@ class SiteController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'Новый пароль был сохранён.');
+            Yii::$app->session->setFlash('success', 'New password was saved.');
 
             return $this->goHome();
         }
@@ -235,21 +209,4 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
-    
-    public function actionActivateAccount($key)
-    {
-        try {
-            $user = new AccountActivation($key);
-        }
-        catch(InvalidParamException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-        if($user->activateAccount()):
-            Yii::$app->session->setFlash('success', 'Активация прошла успешно. <strong>'.Html::encode($user->username).'</strong> вы можете работать с сайтом gapchich.ru');
-        else:
-            Yii::$app->session->setFlash('error', 'Ошибка активации.');
-            Yii::error('Ошибка при активации.');
-        endif;
-        return $this->redirect(Url::to(['/site/login']));
-    }    
 }
