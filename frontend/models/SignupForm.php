@@ -52,7 +52,7 @@ class SignupForm extends Model
             $user->generateAuthKey();
             if ($this->scenario === 'emailActivation')
             {
-                $user->generateSecretKey();
+                $user->generateActivateKey();
             }
             if ($user->save()) {
                 
