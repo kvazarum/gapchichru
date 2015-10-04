@@ -12,15 +12,16 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
+ * @property string $activate_key 
  * @property string $email
- * @property string $auth_key
  * @property integer $status
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
- * @property string $activate_key 
+ 
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -28,9 +29,7 @@ class User extends ActiveRecord implements IdentityInterface
     const STATUS_NOT_ACTIVE = 1;
     const STATUS_ACTIVE = 10;
     
-    const ROLE_USER = 1;
-    const ROLE_MODER = 5;
-    const ROLE_ADMIN = 10;
+    public $password;
 
     /**
      * @inheritdoc
@@ -56,8 +55,8 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['status', 'default', 'value' => self::STATUS_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_DELETED, self::STATUS_ACTIVE]],
         ];
     }
 

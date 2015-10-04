@@ -1,9 +1,10 @@
 <?php
 namespace frontend\models;
 
+use common\models\User;
 use yii\base\Model;
 use Yii;
-use common\models\User;
+
 /**
  * Signup form
  */
@@ -12,6 +13,7 @@ class SignupForm extends Model
     public $username;
     public $email;
     public $password;
+
     public $status;
 
     /**
@@ -22,17 +24,23 @@ class SignupForm extends Model
         return [
             ['username', 'filter', 'filter' => 'trim'],
             ['username', 'required'],
-            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This username has already been taken.'],
+            ['username', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Это имя пользователя уже используется.'],
             ['username', 'string', 'min' => 2, 'max' => 255],
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
-            ['email', 'email'],
+//            ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Эта электронная почта уже используется.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
+            
+            ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'default'],
+            ['status', 'in', 'range' =>[
+                User::STATUS_NOT_ACTIVE,
+                User::STATUS_ACTIVE
+            ]],
             ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'emailActivation'],            
         ];
     }
@@ -50,29 +58,15 @@ class SignupForm extends Model
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
-            if ($this->scenario === 'emailActivation')
+            if($this->scenario === 'emailActivation')
             {
                 $user->generateActivateKey();
             }
             if ($user->save()) {
-                
-                $auth = Yii::$app->authManager;
-                $userRole = $auth->getRole('user');
-                $auth->assign($userRole, $user->getId());
-                
                 return $user;
             }
         }
 
         return null;
-    }
-    
-    public function sendActivationEmail($user)
-    {
-        return Yii::$app->mailer->compose('activationEmail', ['user' => $user])
-            ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name.' (отправлено роботом).'])
-            ->setTo($this->email)
-            ->setSubject('Активация для '.Yii::$app->name)
-            ->send();
     }
 }

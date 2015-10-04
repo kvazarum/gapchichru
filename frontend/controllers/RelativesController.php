@@ -34,7 +34,7 @@ class RelativesController extends Controller
     {
         $searchModel = new RelativesSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-        if (Yii::$app->user->can('user'))
+        if (Yii::$app->user->can('moder'))
         {
             
             return $this->render('index', [

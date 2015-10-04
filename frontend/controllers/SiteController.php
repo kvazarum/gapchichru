@@ -6,7 +6,7 @@ use frontend\models\LoginForm;
 use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
-use frontend\models\ContactForm;
+use common\models\ContactForm;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -139,6 +139,16 @@ class SiteController extends Controller
     {
         return $this->render('about');
     }
+    
+    /**
+     * Displays histiry page.
+     *
+     * @return mixed
+     */
+    public function actionHistory()
+    {
+        return $this->render('history');
+    }    
 
     /**
      * Signs user up.
@@ -154,8 +164,12 @@ class SiteController extends Controller
                     return $this->goHome();
                 }
             }
+            else
+            {
+                Yii::$app->session->setFlash('error', 'Возникла ошибка при регистрации.');
+                Yii::error('Ошибка при регистрации');                
+            }
         }
-
         return $this->render('signup', [
             'model' => $model,
         ]);

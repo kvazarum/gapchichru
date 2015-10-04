@@ -8,6 +8,7 @@ use frontend\models\Search;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
+use yii\filters\AccessControl;
 
 /**
  * SearchController implements the CRUD actions for Relatives model.
@@ -17,6 +18,16 @@ class SearchController extends Controller
     public function behaviors()
     {
         return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only' => ['index'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['user']
+                    ],
+                ]
+            ],             
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
