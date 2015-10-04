@@ -366,7 +366,7 @@ class Relatives extends \yii\db\ActiveRecord
         return $this->father->fullName;
     }    
     
-    public function setImage($fileName)
+    public function setImage($fileName = null)
     {
         $this->img = $fileName;
     }

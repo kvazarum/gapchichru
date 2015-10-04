@@ -134,6 +134,10 @@ class PhotosController extends Controller
         $record = $this->findModel($id);
         unlink('pics/'.$record->name);
         $record->delete();
+        if ($record->relative->img === $record->name)
+        {
+            $record->relative->setImage(null);
+        }
         return $this->redirect(['index']);
     }
 
