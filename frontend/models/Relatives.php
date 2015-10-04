@@ -39,12 +39,13 @@ use yii\helpers\Html;
  * @property string $grave_picture
  * @property string $created_at
  * @property string $updated_at
+ * @property string $fullName
  */
 class Relatives extends \yii\db\ActiveRecord
 {    
     const MAN = 0;
     const WOMAN = 1;
-    public $fullName;
+//    public $fullName;
 
     /**
      * @inheritdoc
@@ -364,4 +365,9 @@ class Relatives extends \yii\db\ActiveRecord
     public function getFatherName() {
         return $this->father->fullName;
     }    
+    
+    public function setImage($fileName)
+    {
+        $this->img = $fileName;
+    }
 }
