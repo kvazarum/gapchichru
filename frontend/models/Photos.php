@@ -18,6 +18,12 @@ class Photos extends \yii\db\ActiveRecord
 {
     public $file;
     
+/**
+ *  Признак того что это фото - аватар
+ * @var boolean
+ */    
+    public $isAvatar;
+    
     /**
      * @inheritdoc
      */
@@ -34,7 +40,7 @@ class Photos extends \yii\db\ActiveRecord
         return [
             [['name', 'relative_id'], 'required'],
             [['descr'], 'string'],
-            [['relative_id'], 'integer'],
+            [['relative_id', 'isAvatar'], 'integer'],
             [['file'], 'file'],
             [['name'], 'string', 'max' => 100],
             [['relative_id'], 'exist', 'skipOnError' => true, 'targetClass' => Relatives::className(), 'targetAttribute' => ['relative_id' => 'id']],
@@ -52,6 +58,7 @@ class Photos extends \yii\db\ActiveRecord
             'file' => 'Имя файла',
             'descr' => 'Примечание',
             'relative_id' => 'Relative ID',
+            'isAvatar' => 'Аватар',
         ];
     }
 
