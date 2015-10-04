@@ -29,7 +29,9 @@ use yii\helpers\Url;
 
     <?= $form->field($model, 'descr')->textarea(['rows' => 6]) ?>
     
-    <?= $form->field($model, 'relative_id')->hiddenInput() ?>
+    <?= $form->field($model, 'isAvatar')->checkbox() ?>
+    
+    <?= $form->field($model, 'relative_id')->hiddenInput()->label(false) ?>
 
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
