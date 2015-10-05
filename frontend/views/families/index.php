@@ -30,9 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'husband_id',
                 'label' => 'Отец',
-                'value' => function ($model){
-                    return $model->getFullName();
-                }
+                'value' => 'husband.fullName'                
+//                'value' => function ($model){
+//                    return $model->hu getFullName();
+//                }
             ],
             [
                 'attribute' => 'wife_id',
