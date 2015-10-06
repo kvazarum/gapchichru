@@ -29,7 +29,7 @@ class SignupForm extends Model
 
             ['email', 'filter', 'filter' => 'trim'],
             ['email', 'required'],
-//            ['email', 'email'],
+            ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'Эта электронная почта уже используется.'],
 

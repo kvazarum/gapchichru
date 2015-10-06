@@ -37,7 +37,11 @@ return [
 
             'adminUrl' => '/admin'
 
-        ],        
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+            'defaultRoles' => ['user','moder','admin'],
+        ],         
     ],
     'params' => $params,
 ];

@@ -24,14 +24,19 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'username',
-            'auth_key',
-            'password_hash',
-            'password_reset_token',
+            [
+                'attribute' => 'username',
+                'format' => 'raw',
+                'value' => function($model){
+                    return Html::a($model->username, '/admin/user/view?id='.$model->id, ['target' => '_blank']);
+                }
+            ],
+            'id',            
+//            'auth_key',
+//            'password_hash',
+//            'password_reset_token',
             // 'activate_key',
-            // 'email:email',
+             'email:email',
             // 'status',
             // 'created_at',
             // 'updated_at',
