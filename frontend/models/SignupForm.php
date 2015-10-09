@@ -58,6 +58,15 @@ class SignupForm extends Model
             $user->email = $this->email;
             $user->setPassword($this->password);
             $user->generateAuthKey();
+            if ($this->sendSignupEmail($user))
+            {
+                Yii::$app->session->setFlash('success', 'Уведомление успешно отправлено');
+            }
+            else
+            {
+                Yii::$app->session->setFlash('danger', 'Произошла ошибка при отправке уведомления.');
+            }
+            
             if($this->scenario === 'emailActivation')
             {
                 $user->generateActivateKey();
@@ -68,5 +77,28 @@ class SignupForm extends Model
         }
 
         return null;
+    }
+    
+    public function sendActivationEmail($user)
+    {
+        return Yii::$app->mailer->compose('activationEmail', ['user' => $user])
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name.' (отправлено роботом).'])
+                ->setTo(Yii::$app->params['supportEmail'])
+                ->setSubject('Активация для '.Yii::$app->name)
+                ->send();
+    }
+    
+/**
+ * 
+ * @param User $user
+ */    
+    private function sendSignupEmail($user)
+    {
+        return Yii::$app->mailer->compose('newUserEmail', ['user' => $user])
+//                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name.' (отправлено роботом).'])
+                ->setFrom([Yii::$app->params['supportEmail'] => Yii::$app->name.' (отправлено роботом).'])
+                ->setTo(Yii::$app->params['supportEmail'])
+                ->setSubject('Регистрация нового пользователя '.$user->username)
+                ->send();        
     }
 }
