@@ -31,13 +31,25 @@ $this->params['breadcrumbs'][] = $this->title;
                     return Html::a($model->username, '/admin/user/view?id='.$model->id, ['target' => '_blank']);
                 }
             ],
-            'id',            
-//            'auth_key',
-//            'password_hash',
-//            'password_reset_token',
-            // 'activate_key',
+            'id',
              'email:email',
-             'status',
+            [
+                'attribute' => 'status',
+                'format' => 'raw',
+                'value' => function($model){
+                    if ($model->status === 10)
+                    {
+                        $class = 'label-success label';
+                        $value = 'ACTIVE';
+                    }
+                    else
+                    {
+                        $class = 'label-danger label';
+                        $value ='NOT_ACTIVE';
+                    }
+                    return Html::tag('span', $value, ['class' => $class]);
+                }
+            ],
             // 'created_at',
             // 'updated_at',
 
