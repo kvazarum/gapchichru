@@ -14,7 +14,7 @@ use common\models\User;
  */
 class AccountActivation extends Model
 {
-    /* @var $user \app\models\User */
+    /* @var $_user \app\models\User */
     private $_user;
     
     public function __construct($key, $config = []) {
@@ -22,7 +22,7 @@ class AccountActivation extends Model
         {
             throw new InvalidParamException('Ключ не может быть пустым!');
         }
-        $this->_user = User::findBySecretKey($key);
+        $this->_user = User::findByActivateKey($key);
         if (!$this->_user)
         {
             throw new InvalidParamException('Неверный ключ!');
@@ -34,7 +34,7 @@ class AccountActivation extends Model
     {
         $user = $this->_user;
         $user->status = User::STATUS_ACTIVE;
-        $user->removeSecretKey();
+        $user->removeActivateKey();
         return $user->save();
     }
     

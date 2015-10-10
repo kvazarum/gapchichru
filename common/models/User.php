@@ -55,8 +55,9 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
-            ['status', 'default', 'value' => self::STATUS_ACTIVE],
-            ['status', 'in', 'range' => [self::STATUS_DELETED, self::STATUS_ACTIVE]],
+            ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
+            ['status', 'in', 'range' => [self::STATUS_DELETED, self::STATUS_ACTIVE, self::STATUS_NOT_ACTIVE]],
+            ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'emailActivation'],
         ];
     }
 
@@ -136,7 +137,7 @@ class User extends ActiveRecord implements IdentityInterface
 
         return static::findOne([
             'activate_key' => $key,
-            'status' => self::STATUS_ACTIVE,
+            'status' => self::STATUS_NOT_ACTIVE,
         ]);
     }    
     
@@ -237,7 +238,7 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * Removes secret key
      */
-    public function removeSecretKey()
+    public function removeActivateKey()
     {
         $this->activate_key = null;
     }    

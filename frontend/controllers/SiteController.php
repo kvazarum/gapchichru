@@ -12,6 +12,10 @@ use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use frontend\models\AccountActivation;
+use common\models\User;
 
 /**
  * Site controller
@@ -26,15 +30,15 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'activate-account'],
                 'rules' => [
                     [
-                        'actions' => ['signup'],
+                        'actions' => ['signup', 'activate-account'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout',],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -157,12 +161,34 @@ class SiteController extends Controller
      */
     public function actionSignup()
     {
-        $model = new SignupForm();
+        $emailActivation = Yii::$app->params['emailActivation'];
+		$model = $emailActivation ? $model = new SignupForm(['scenario' => 'emailActivation']) : $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
-            if ($user = $model->signup()) {
-                if (Yii::$app->getUser()->login($user)) {
-                    return $this->goHome();
-                }
+            if ($user = $model->signup()) 
+			{
+				if ($user->status === User::STATUS_ACTIVE)
+				{
+					if (Yii::$app->getUser()->login($user)) 
+					{
+						return $this->goHome();
+					}
+				}
+				else
+				{
+					if($model->sendActivationEmail($user))
+					{
+						Yii::$app->session->setFlash('success', 'Письмо с активацией отправлено на емайл <strong>'.Html::encode($user->email).'</strong> (проверьте папку спам).');
+					}
+					else
+					{
+                        Yii::$app->session->setFlash('error', 'Ошибка. Письмо не отправлено.');
+                        Yii::error('Ошибка отправки письма.');						
+					}
+				}
+				return $this->refresh();
+//                if (Yii::$app->getUser()->login($user)) {
+//                    return $this->goHome();
+//                }
             }
             else
             {
@@ -174,6 +200,26 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+	
+    public function actionActivateAccount($key)
+    {
+        try {
+            $user = new AccountActivation($key);
+        }
+        catch(InvalidParamException $e) {
+            throw new BadRequestHttpException($e->getMessage());
+        }
+        if($user->activateAccount())
+        {
+            Yii::$app->session->setFlash('success', 'Активация прошла успешно, <strong>'.Html::encode($user->username).'</strong>. Добро пожаловать на сайт gapchich.ru');
+        }
+        else
+        {
+            Yii::$app->session->setFlash('error', 'Ошибка активации.');
+            Yii::error('Ошибка при активации.');
+        }
+        return $this->redirect(Url::to(['/site/login']));
+    }	
 
     /**
      * Requests password reset.
