@@ -14,7 +14,20 @@ $this->title = $model->getFullName();
 $this->params['breadcrumbs'][] = ['label' => 'Родственники', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-const COL_SPAN = 4;
+function getClansRow($clans)
+{
+    $result = '';
+    if ($clans != null)
+    {
+        foreach ($clans as $clan)
+        {
+            $result .= Html::a($clan, '/search/index?search='.$clan, ['target' => '_blank']).' ';
+        }
+    }
+    return $result;
+}
+
+        const COL_SPAN = 4;
 ?>
 <div class="relatives-view">
 
@@ -72,7 +85,10 @@ const COL_SPAN = 4;
             'sname',
             'fname',
             'mname',
-            'second_sname',
+            [
+                'attribute' => 'second_sname',
+                'visible'=> !is_null($model->second_sname),
+            ],
             [
                 'label' => 'Дата рождения',
                 'value' => Relatives::getBDate($model->id),
@@ -92,6 +108,11 @@ const COL_SPAN = 4;
             [
                 'attribute'=>'hidden',
                 'visible'=> Yii::$app->user->can('admin'),
+            ],
+            [
+                'label' => 'Список фамилий предков',
+                'format' => 'raw',
+                'value' => getClansRow($model->getClans()),
             ],
         ],
     ]) ?>
