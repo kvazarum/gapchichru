@@ -25,13 +25,34 @@ $this->params['breadcrumbs'][] = $this->title;
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             [
+                'attribute' => 'id',
+                'headerOptions' => [
+                    'class' => 'col-xs-1',
+                ],
+            ],
+            [
                 'attribute' => 'username',
                 'format' => 'raw',
                 'value' => function($model){
                     return Html::a($model->username, '/admin/user/view?id='.$model->id, ['target' => '_blank']);
                 }
             ],
-            'id',
+            [
+                'attribute' => 'relative_id',
+                'format' => 'raw',
+                'value' => function($model){
+                    if ($model->relative_id != null)
+                    {
+                        $url = '/relatives/view?id='.$model->relative_id;
+                        $result = Html::a($model->getRelativeName(), $url, ['target' => '_blank']);
+                    }
+                    else
+                    {
+                        $result = null;
+                    }
+                    return $result;
+                }
+            ],
              'email:email',
             [
                 'attribute' => 'status',
