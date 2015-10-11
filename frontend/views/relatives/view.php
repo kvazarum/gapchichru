@@ -477,6 +477,9 @@ function getClansRow($clans)
                     }
                 }                
             }
+            echo Html::beginTag('tr', ['class' => 'info']);
+                echo Html::tag('th', 'Кол-во записей: '.count($children), ['colspan' => COL_SPAN]);
+            echo Html::endTag('tr');            
         echo Html::endTag('table');
         
         if (count ($nextLevelChildren) > 0)
