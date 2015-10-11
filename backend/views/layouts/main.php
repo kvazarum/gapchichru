@@ -29,7 +29,7 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => 'gapchich.ru',
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => 'http://gapchich.ru',
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
