@@ -44,6 +44,19 @@ class SignupForm extends Model
             ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'emailActivation'],            
         ];
     }
+    
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Логин',
+            'email' => 'Email*',
+            'password' => 'Пароль',
+        ];
+    }    
 
     /**
      * Signs user up.
