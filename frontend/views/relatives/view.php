@@ -114,11 +114,15 @@ function getSocialAccounts($model)
                 'value' => Relatives::getBDate($model->id),
             ],
             [
+                'attribute' => 'bplace',
+                'visible'=> !is_null($model->bplace),
+            ],            
+            [
+                'attribute' => 'dyear',
                 'label' => 'Дата смерти',
                 'value' => $model->getDDate(),
-                'visible'=> !is_null($model->dyear),
-            ],
-            'bplace',
+                'visible'=> is_numeric($model->dyear),
+            ],            
             [
                 'attribute'=>'gender',
                 'format' => 'raw',
