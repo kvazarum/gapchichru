@@ -1,6 +1,7 @@
 <?php
 namespace common\models;
 
+use frontend\models\Relatives;
 use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
@@ -12,6 +13,7 @@ use yii\web\IdentityInterface;
  *
  * @property integer $id
  * @property string $username
+ * @property integer $relative_id
  * @property string $auth_key
  * @property string $password_hash
  * @property string $password_reset_token
@@ -21,7 +23,8 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
- 
+ * @property Relatives $relative
+
  */
 class User extends ActiveRecord implements IdentityInterface
 {
@@ -55,6 +58,7 @@ class User extends ActiveRecord implements IdentityInterface
     public function rules()
     {
         return [
+            [['relative_id'], 'integer'],
             ['status', 'default', 'value' => self::STATUS_NOT_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_DELETED, self::STATUS_ACTIVE, self::STATUS_NOT_ACTIVE]],
             ['status', 'default', 'value' => User::STATUS_NOT_ACTIVE, 'on' => 'emailActivation'],
@@ -241,5 +245,54 @@ class User extends ActiveRecord implements IdentityInterface
     public function removeActivateKey()
     {
         $this->activate_key = null;
-    }    
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRelative()
+    {
+        if ($this->relative_id != null)
+        {
+            $result  = $this->hasOne(Relatives::className(), ['id' => 'relative_id']);
+        }
+        else
+        return $this->hasOne(Relatives::className(), ['id' => 'relative_id']);
+    }
+
+    /**
+     * Returns full name of relative
+     * @return null|string
+     */
+    public function getRelativeName()
+    {
+        if ($this->relative_id != null)
+        {
+            return Relatives::findOne($this->relative_id)->getFullName();
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'username' => 'Username',
+            'relative_id' => 'Родственник',
+            'auth_key' => 'Auth Key',
+            'password_hash' => 'Password Hash',
+            'password_reset_token' => 'Password Reset Token',
+            'activate_key' => 'Activate Key',
+            'email' => 'Email',
+            'status' => 'Status',
+            'created_at' => 'Created At',
+            'updated_at' => 'Updated At',
+        ];
+    }
 }
