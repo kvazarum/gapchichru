@@ -54,6 +54,7 @@ const COL_SPAN = 4;
     </ul>
     
     <div class="tab-content">
+<!-------------main------------------------>        
         <div class="tab-pane active" id="main">
     <?php
         echo DetailView::widget([
@@ -88,6 +89,10 @@ const COL_SPAN = 4;
                 'value' => $model->gender ? '<span class="label label-woman">Женский</span>' : '<span class="label label-man">Мужской</span>',
             ],
             'descr:html',
+            [
+                'attribute'=>'hidden',
+                'visible'=> Yii::$app->user->can('admin'),
+            ],
         ],
     ]) ?>
         </div>
@@ -107,13 +112,29 @@ const COL_SPAN = 4;
                 echo Relatives::renderRow($model->mother_id);
             echo Html::endTag('tr');                       
         echo Html::endTag('table');
+        if ($model->father_id != null && $model->mother_id != null) {
+            $children = Relatives::findAll(['father_id' => $model->father_id, 'mother_id' => $model->mother_id]);
+            $count = count($children);
+            if ($count > 1) {
+                echo Html::beginTag('table', ['class' => 'table table-striped table-bordered detail-view']);
+                echo Html::beginTag('tr', ['class' => 'info']);
+                echo Html::tag('th', 'Братья, сёстры', ['colspan' => COL_SPAN]);
+                echo Html::endTag('tr');
+                for ($i = 0; $i < $count; $i++) {
+                    if ($children[$i]->id != $model->id) {
+                        echo Relatives::renderRow($children[$i]->id);
+                    }
+                }
+                echo Html::endTag('table');
+            }
+        }
     ?>     
             </p>
         </div>
+<!--  -----------families------------------------>
         <div class="tab-pane" id="families">
             <p>
             <?php
-//  -----------families----------------------                                
                 $families = Families::getFamilies($model->id);
                 for ($i = 0; $i < count($families); $i++)
                 {
