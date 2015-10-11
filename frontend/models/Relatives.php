@@ -97,14 +97,14 @@ class Relatives extends \yii\db\ActiveRecord
             'img' => 'Img',
             'bplace' => 'Место рождения',
             'gender' => 'Пол',
-            'descr' => 'Доп. сведения',
+            'descr' => 'Примечания',
             'second_sname' => 'Другие фамилии',
             'dday' => 'День смерти',
             'dmonth' => 'Месяц смерти',
             'dyear' => 'Год смерти',
             'rod' => 'Род',
             'visible' => 'Видимость',
-            'hidden' => 'Hidden',
+            'hidden' => 'Доп. сведения',
             'show_pict' => 'Показывать аватар',
             'grave_lon' => 'Grave Lon',
             'grave_lat' => 'Grave Lat',
@@ -369,5 +369,33 @@ class Relatives extends \yii\db\ActiveRecord
     public function setImage($fileName = null)
     {
         $this->img = $fileName;
+    }
+
+    /**
+     * Получение списка родов (фамилий предков) человека
+     */
+    public function getClans(&$clans = null)
+    {
+        if ($clans == null)
+        {
+            $clans = [];
+        }
+        
+        if ($this->rod != null)
+        {
+            if (!in_array($this->rod, $clans))
+            {
+                $clans[] = $this->rod;
+            }
+        }
+        if ($this->father_id != null)
+        {
+            Relatives::findOne($this->father_id)->getClans($clans);
+        }
+        if ($this->mother_id != null)
+        {
+            Relatives::findOne($this->mother_id)->getClans($clans);;
+        }
+        return $clans;
     }
 }

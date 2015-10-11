@@ -43,8 +43,6 @@ class SearchController extends Controller
      */
     public function actionIndex()
     {
-        $searchString = $_POST['search'];
-
         return $this->render('index', [
         ]);
     }

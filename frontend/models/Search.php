@@ -18,7 +18,7 @@ class Search
    * @param string $searchString
    * @return array массив, содержащий id найденных записей
    */ 
-static function getComplitMatch($keywords, $typeOfResult)
+static function getComplitMatch($keywords)
 {    
     $keywords = explode(' ', $keywords);
 
@@ -32,6 +32,8 @@ static function getComplitMatch($keywords, $typeOfResult)
             ->andWhere(['like', 'sname', $keyword])
             ->orWhere(['like', 'descr', $keyword])
             ->orWhere(['like', 'mname', $keyword])
+            ->orWhere(['like', 'rod', $keyword])
+            ->orWhere(['like', 'second_sname', $keyword])
             ->orWhere(['like', 'fname', $keyword])->all();
         if (!$flag)
         {

@@ -165,27 +165,28 @@ class SiteController extends Controller
 		$model = $emailActivation ? $model = new SignupForm(['scenario' => 'emailActivation']) : $model = new SignupForm();
         if ($model->load(Yii::$app->request->post())) {
             if ($user = $model->signup()) 
-			{
-				if ($user->status === User::STATUS_ACTIVE)
-				{
-					if (Yii::$app->getUser()->login($user)) 
-					{
-						return $this->goHome();
-					}
-				}
-				else
-				{
-					if($model->sendActivationEmail($user))
-					{
-						Yii::$app->session->setFlash('success', 'Письмо с активацией отправлено на емайл <strong>'.Html::encode($user->email).'</strong> (проверьте папку спам).');
-					}
-					else
-					{
+            {
+                if ($user->status === User::STATUS_ACTIVE)
+                {
+                    if (Yii::$app->getUser()->login($user)) 
+                    {
+                            return $this->goHome();
+                    }
+                }
+                else
+                {
+                    if($model->sendActivationEmail($user))
+                    {
+                        Yii::$app->session->setFlash('success', 'Письмо с активацией отправлено на емайл <strong>'.Html::encode($user->email).'</strong> (проверьте папку спам).');
+                        return $this->goHome();
+                    }
+                    else
+                    {
                         Yii::$app->session->setFlash('error', 'Ошибка. Письмо не отправлено.');
                         Yii::error('Ошибка отправки письма.');						
-					}
-				}
-				return $this->refresh();
+                    }
+                }
+                return $this->refresh();
 //                if (Yii::$app->getUser()->login($user)) {
 //                    return $this->goHome();
 //                }
