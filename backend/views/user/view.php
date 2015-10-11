@@ -30,6 +30,10 @@ $this->params['breadcrumbs'][] = $this->title;
         'attributes' => [
             'id',
             'username',
+            [
+                'attribute' => 'relative_id',
+                'value' => $model->relative_id != null ? $model->getRelativeName() : null,
+            ],
             'email:email',
             'status',
             [
