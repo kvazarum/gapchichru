@@ -104,7 +104,11 @@ function getClansRow($clans)
                 'format' => 'raw',
                 'value' => $model->gender ? '<span class="label label-woman">Женский</span>' : '<span class="label label-man">Мужской</span>',
             ],
-            'descr:html',
+            [
+                'attribute' => 'descr',
+                'format' => 'html',
+                'visible'=> !is_null($model->descr),
+            ],
             [
                 'attribute'=>'hidden',
                 'visible'=> Yii::$app->user->can('admin'),
