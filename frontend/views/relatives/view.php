@@ -36,13 +36,18 @@ function getSocialAccounts($model)
     {
         foreach ($accounts as $account)
         {
-            $result .= Html::a($account->network->name.' ', $account->url, ['target' => '_blank']);
+            $result .= Html::a($account->network->title.' ', $account->url, ['target' => '_blank']);
         }
+    }
+    if (Yii::$app->user->can('moder'))
+    {
+        $url = '/social-account/create?id='.$model->id;
+        $result .= Html::a('+', $url, ['class' => 'btn btn-success', 'target' => '_blank', 'title' => 'Добавить']);
     }
     return $result;
 }
 
-        const COL_SPAN = 4;
+    const COL_SPAN = 4;
 ?>
 <div class="relatives-view">
 
