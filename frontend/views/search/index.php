@@ -14,7 +14,14 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="relatives-index">
     <?php 
-    $searchString = $_POST['search'];
+    if (isset($_POST['search']))
+    {
+        $searchString = $_POST['search'];
+    }
+    else
+    {
+        $searchString = $_REQUEST['search'];
+    }
     $searchString = trim($searchString);
 //    $searchString = Html::encode($searchString);
 //    $searchString = Html::decode($searchString);
