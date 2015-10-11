@@ -6,6 +6,7 @@ use frontend\models\Relatives;
 use frontend\models\Families;
 use frontend\models\Photos;
 use frontend\models\Cemeteries;
+use frontend\models\SocialAccount;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\Relatives */
@@ -22,6 +23,20 @@ function getClansRow($clans)
         foreach ($clans as $clan)
         {
             $result .= Html::a($clan, '/search/index?search='.$clan, ['target' => '_blank']).' ';
+        }
+    }
+    return $result;
+}
+
+function getSocialAccounts($model)
+{
+    $result = '';
+    $accounts = SocialAccount::findAll(['relative_id' => $model->id]);
+    if (count($accounts))
+    {
+        foreach ($accounts as $account)
+        {
+            $result .= Html::a($account->network->name.' ', $account->url, ['target' => '_blank']);
         }
     }
     return $result;
@@ -111,12 +126,18 @@ function getClansRow($clans)
             ],
             [
                 'attribute'=>'hidden',
+                'format' => 'raw',
                 'visible'=> Yii::$app->user->can('admin'),
             ],
             [
                 'label' => 'Список фамилий предков',
                 'format' => 'raw',
                 'value' => getClansRow($model->getClans()),
+            ],
+            [
+                'label' => 'Социальные сети',
+                'format' => 'raw',
+                'value' => getSocialAccounts($model),
             ],
         ],
     ]) ?>
@@ -405,6 +426,10 @@ function getClansRow($clans)
         {
             $title = $level.' Бабушки, дедушки';
         }
+        elseif ($level == 3)
+        {
+            $title = $level.' Прабабушки, прадедушки';
+        }        
         else
         {
             $title = $level.' уровень';
