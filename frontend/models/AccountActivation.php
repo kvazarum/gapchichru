@@ -6,6 +6,8 @@ use yii\base\InvalidParamException;
 use yii\base\Model;
 use Yii;
 use common\models\User;
+use backend\models\AuthAssignment;
+use backend\models\AuthItem;
 
 /**
  * 
@@ -35,7 +37,15 @@ class AccountActivation extends Model
         $user = $this->_user;
         $user->status = User::STATUS_ACTIVE;
         $user->removeActivateKey();
-        return $user->save();
+        $result = $user->save();
+        
+        $assignment = new AuthAssignment();
+        $assignment->item_name = 'user';
+        $assignment->user_id = $user->id;
+        $assignment->created_at = time();
+        $result2 = $assignment->save(false,['item_name', 'user_id', 'created_at']);
+        
+        return $result;
     }
     
     public function getUsername()
