@@ -25,8 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
+            [
+                'attribute' => 'id',
+                'format' => 'raw',
+                'value' => function ($model){
+                    $text = $model->id;
+                    $url = '/families/view?id='.$model->id;
+                    return Html::a($text, $url, ['target' => '_blank']);
+                },
+                'headerOptions' => [
+                    'class' => 'col-xs-1',
+                ],
+            ],
             [
                 'attribute' => 'husband_id',
                 'label' => 'Отец',
