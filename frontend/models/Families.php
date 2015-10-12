@@ -47,10 +47,10 @@ class Families extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'husband_id' => 'Husband ID',
-            'wife_id' => 'Wife ID',
-            'mdate' => 'Mdate',
-            'descr' => 'Descr',
+            'husband_id' => 'Муж',
+            'wife_id' => 'Жена',
+            'mdate' => 'Дата свадьбы',
+            'descr' => 'Описание',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
