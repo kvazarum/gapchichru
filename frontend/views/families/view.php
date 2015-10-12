@@ -6,8 +6,8 @@ use yii\widgets\DetailView;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Families */
 
-$this->title = $model->id;
-$this->params['breadcrumbs'][] = ['label' => 'Families', 'url' => ['index']];
+$this->title = $model->husband->fullName.' & '.$model->wife->fullName;
+$this->params['breadcrumbs'][] = ['label' => 'Семьи', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="families-view">
@@ -29,8 +29,16 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'husband_id',
-            'wife_id',
+            [
+                'attribute' => 'husband_id',
+                'format' => 'raw',
+                'value' => Html::a($model->husband->fullName, '/relatives/view?id='.$model->husband_id),
+            ],
+            [
+                'attribute' => 'wife_id',
+                'format' => 'raw',
+                'value' => Html::a($model->wife->fullName, '/relatives/view?id='.$model->wife_id),
+            ],            
             'mdate',
             'descr:ntext',
             'created_at',
