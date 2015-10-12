@@ -33,7 +33,7 @@ class Families extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['husband_id', 'wife_id', 'descr', 'created_at', 'updated_at'], 'required'],
+            [['husband_id', 'wife_id', 'descr'], 'required'],
 //            [[], 'integer'],
             [['mdate', 'created_at', 'updated_at', 'husband_id', 'wife_id'], 'safe'],
             [['descr'], 'string']
