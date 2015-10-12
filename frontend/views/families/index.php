@@ -30,18 +30,22 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'husband_id',
                 'label' => 'Отец',
-                'value' => 'husband.fullName'                
-//                'value' => function ($model){
-//                    return $model->hu getFullName();
-//                }
+                'format' => 'raw',
+                'value' => function ($model){
+                    $text = $model->husband->getFullName();
+                    $url = '/relatives/view?id='.$model->husband_id;
+                    return Html::a($text, $url, ['target' => '_blank']);
+                }
             ],
             [
                 'attribute' => 'wife_id',
                 'label' => 'Мать',
-                'value' => 'wife.fullName'
-//                'value' => function ($model){
-//                    return Relatives::getFullName($model->wife_id);
-//                }
+                'format' => 'raw',                
+                'value' => function ($model){
+                    $text = $model->wife->getFullName();
+                    $url = '/relatives/view?id='.$model->wife_id;
+                    return Html::a($text, $url, ['target' => '_blank']);
+                }
             ],                    
             'mdate',
             'descr:ntext',
