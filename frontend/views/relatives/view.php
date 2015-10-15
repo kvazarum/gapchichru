@@ -9,7 +9,7 @@ use frontend\models\Cemeteries;
 use frontend\models\SocialAccount;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\Relatives */
+/* @var $model frontend\models\Relatives */
 
 $this->title = $model->getFullName();
 $this->params['breadcrumbs'][] = ['label' => 'Родственники', 'url' => ['index']];
@@ -47,7 +47,7 @@ function getSocialAccounts($model)
     return $result;
 }
 
-    const COL_SPAN = 4;
+const COL_SPAN = 4;
 ?>
 <div class="relatives-view">
 
@@ -87,7 +87,6 @@ function getSocialAccounts($model)
     </ul>
     
     <div class="tab-content">
-<!-------------main------------------------>        
         <div class="tab-pane active" id="main">
     <?php
         echo DetailView::widget([
@@ -114,15 +113,14 @@ function getSocialAccounts($model)
                 'value' => Relatives::getBDate($model->id),
             ],
             [
-                'attribute' => 'bplace',
-                'visible'=> !is_null($model->bplace),
-            ],            
-            [
-                'attribute' => 'dyear',
                 'label' => 'Дата смерти',
                 'value' => $model->getDDate(),
-                'visible'=> is_numeric($model->dyear),
-            ],            
+                'visible'=> !is_null($model->dyear),
+            ],
+            [
+                'attribute' => 'bplace',
+                'visible'=> !is_null($model->bplace),
+            ],
             [
                 'attribute'=>'gender',
                 'format' => 'raw',
@@ -186,10 +184,10 @@ function getSocialAccounts($model)
     ?>     
             </p>
         </div>
-<!--  -----------families------------------------>
         <div class="tab-pane" id="families">
             <p>
             <?php
+//  -----------families----------------------                                
                 $families = Families::getFamilies($model->id);
                 for ($i = 0; $i < count($families); $i++)
                 {
@@ -210,7 +208,8 @@ function getSocialAccounts($model)
                         $url = '/relatives/create?father_id='.$father.'&mother_id='.$mother;
                         $options = NULL;
                         $text = Html::tag('a', '<small>Добавить ребёнка</small>', ['class' => 'btn btn-success pull-right', 'href' => $url, 'target' => '_blank']);
-                        echo Html::tag('th', '<h3>Семья</h3>'.$text, ['colspan' => COL_SPAN]);
+                        $a = Html::a('<h4>Семья</h4>','/families/view?id='.$families[$i]->id, ['target' => '_blank']);
+                        echo Html::tag('th', $a.$text, ['colspan' => COL_SPAN]);
                         echo Html::endTag('tr');
                         echo Html::beginTag('tr');
                             echo Html::tag('th', 'Супруг', ['colspan' => COL_SPAN]);
@@ -328,10 +327,10 @@ function getSocialAccounts($model)
             if ($model->cemetery_id != null)
             {
                 $cemetery = Cemeteries::findOne($model->cemetery_id);
-                echo Html::a($cemetery->title, '/cemeteries/view?id='.$cemetery->id, ['title' => $cemetery->description]);
+                echo '<p>'.Html::a($cemetery->title, '/cemeteries/view?id='.$cemetery->id, ['title' => $cemetery->description]).'</p>';
                 if ($model->hasGraveCoordinates())
                 {
-                    echo '<script type="text/javascript"
+                    echo '<script type="text/javascript" async defer
                         src="http://maps.googleapis.com/maps/api/js?key=AIzaSyATK26QBNg6wgXq4Kk4rwQ8r21qi5BQ_Mo&sensor=false&callback=initialize">
                         </script>
                         <style type="text/css">
@@ -374,12 +373,8 @@ function getSocialAccounts($model)
             if ($model->grave_picture != null)
             {
                 echo '<div>';
-                echo '<div align="center" ><img id="wheelzoom" style="height: 500px;" src="/pics/' . $model->grave_picture. '" ></div>';
-
-                echo "<script>
-                        $('#wheelzoom').wheelzoom();
-                    </script>'";
-                
+                echo '<div align="right" >
+                    <img id="wheelzoom" style="height: 400px;" src="/pics/' . $model->grave_picture. '" ></div>';
                 echo '</div>';
             }            
             ?>
@@ -435,10 +430,6 @@ function getSocialAccounts($model)
         {
             $title = $level.' Бабушки, дедушки';
         }
-        elseif ($level == 3)
-        {
-            $title = $level.' Прабабушки, прадедушки';
-        }        
         else
         {
             $title = $level.' уровень';
@@ -511,9 +502,6 @@ function getSocialAccounts($model)
                     }
                 }                
             }
-            echo Html::beginTag('tr', ['class' => 'info']);
-                echo Html::tag('th', 'Кол-во записей: '.count($children), ['colspan' => COL_SPAN]);
-            echo Html::endTag('tr');            
         echo Html::endTag('table');
         
         if (count ($nextLevelChildren) > 0)

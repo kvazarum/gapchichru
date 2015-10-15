@@ -10,6 +10,22 @@ use kartik\select2\Select2;
 /* @var $this yii\web\View */
 /* @var $model frontend\models\Relatives */
 /* @var $form yii\widgets\ActiveForm */
+
+$month = [
+    null => 'Выберите месяц ...',
+    '1' => 'Январь',
+    '2' => 'Февраль',
+    '3' => 'Март',
+    '4' => 'Апрель',
+    '5' => 'Май',
+    '6' => 'Июнь',
+    '7' => 'Июль',
+    '8' => 'Август',
+    '9' => 'Сентябрь',
+    '10' => 'Октябрь',
+    '11' => 'Ноябрь',
+    '12' => 'Декабрь',
+];
 ?>
 
 <div class="relatives-form">
@@ -26,7 +42,7 @@ use kartik\select2\Select2;
 
     <?= $form->field($model, 'bday')->textInput() ?>
 
-    <?= $form->field($model, 'bmonth')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'bmonth')->dropDownList($month, ['class' => 'form-control'])    ?>
 
     <?= $form->field($model, 'byear')->textInput(['maxlength' => true]) ?>
 
