@@ -13,16 +13,18 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cemeteries-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <div class="left col-sm-6" style="float: left; display: inline-block;">
     <?php
         echo $this->render('_form', [
             'model' => $model,
         ]);
-
+    ?>
+    </div>
+    <?php
     $latitude = 49.593255;
     $longitude = 34.556552;
 
-    echo '<div style="display: inline-block; margin-left: 20px;">';
+    echo '<div class="col-sm-6" style="float: right; display: inline-block;">';
             echo '<script type="text/javascript"
                 src="http://maps.googleapis.com/maps/api/js?key=AIzaSyATK26QBNg6wgXq4Kk4rwQ8r21qi5BQ_Mo&sensor=false&callback=initialize">
                 </script>

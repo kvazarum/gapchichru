@@ -32,7 +32,7 @@ class Cemeteries extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['title', 'latitude', 'longitude', 'created_at', 'updated_at'], 'required'],
+            [['title', 'latitude', 'longitude'], 'required'],
             [['created_at', 'updated_at'], 'integer'],
             [['title', 'description'], 'string'],
             [['latitude', 'longitude'], 'number'],
