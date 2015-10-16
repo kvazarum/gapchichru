@@ -38,8 +38,6 @@ $month = [
 
     <?= $form->field($model, 'mname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'bdate')->textInput() ?>
-
     <?= $form->field($model, 'bday')->textInput() ?>
 
     <?= $form->field($model, 'bmonth')->dropDownList($month, ['class' => 'form-control'])    ?>
