@@ -26,6 +26,11 @@ $month = [
     '11' => 'Ноябрь',
     '12' => 'Декабрь',
 ];
+
+$gender = [
+    0 => 'Мужской',
+    1 => 'Женский',
+];
 ?>
 
 <div class="relatives-form">
@@ -84,13 +89,11 @@ $month = [
         ]);    
     ?>
 
-    
-
     <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'bplace')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'gender')->textInput() ?>
+    <?= $form->field($model, 'gender')->dropDownList($gender) ?>
 
     <?= $form->field($model, 'descr')->textarea() ?>
 
