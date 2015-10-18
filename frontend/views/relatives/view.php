@@ -212,7 +212,7 @@ const COL_SPAN = 4;
                         echo Html::tag('th', $a.$text, ['colspan' => COL_SPAN]);
                         echo Html::endTag('tr');
                         echo Html::beginTag('tr');
-                            echo Html::tag('th', 'Супруг', ['colspan' => COL_SPAN]);
+                            echo Html::tag('th', 'Супруг(а)', ['colspan' => COL_SPAN]);
                         echo Html::endTag('tr');
                         Relatives::renderRow($spouse);
                         $fam = Families::findOne($families[$i]->id);
@@ -430,6 +430,10 @@ const COL_SPAN = 4;
         {
             $title = $level.' Бабушки, дедушки';
         }
+        elseif ($level == 3)
+        {
+            $title = $level.' Прабабушки, прадедушки';
+        }        
         else
         {
             $title = $level.' уровень';
@@ -462,6 +466,7 @@ const COL_SPAN = 4;
     function renderRelativesTable($children, $level)
     {
         $nextLevelChildren = [];
+        $count = 0;
         if($level == 1)
         {
             $title = $level.' Дети';
@@ -485,6 +490,7 @@ const COL_SPAN = 4;
             foreach ($children as $child)
             {
                 echo Relatives::renderRow($child->id);
+                $count++;
                 if ($child->gender)
                 {
                     $field = 'mother_id';
@@ -502,6 +508,9 @@ const COL_SPAN = 4;
                     }
                 }                
             }
+        echo Html::beginTag('tr', ['class' => 'info']);
+            echo Html::tag('th', 'Итого: '.$count, ['colspan' => COL_SPAN]);
+        echo Html::endTag('tr');        
         echo Html::endTag('table');
         
         if (count ($nextLevelChildren) > 0)
