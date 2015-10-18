@@ -70,7 +70,12 @@ class RelativesController extends Controller
     {
         $model = new Relatives();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+        if ($model->load(Yii::$app->request->post()) ) {
+            if (!strlen($model->img))
+            {
+                $model->img = null;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             if (isset($_REQUEST['mother_id']))
@@ -98,7 +103,7 @@ class RelativesController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post())) {
-            if ($model->img == '')
+            if (!strlen($model->img))
             {
                 $model->img = null;
             }
