@@ -107,19 +107,7 @@ $gender = [
 
     <?= $form->field($model, 'dyear')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'visible')->textInput()->widget(CheckboxX::classname(), [
-        'autoLabel'=>true,
-        'pluginOptions'=>['threeState'=>false]
-        ])->label(false); 
-    ?>
-
     <?= $form->field($model, 'hidden')->textarea() ?>
-
-    <?= $form->field($model, 'show_pict')->textInput()->widget(CheckboxX::classname(), [
-        'autoLabel'=>true,
-        'pluginOptions'=>['threeState'=>false]
-        ])->label(false); 
-    ?>
 
     <?= $form->field($model, 'grave_lon')->textInput() ?>
 
