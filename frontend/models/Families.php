@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the model class for table "families".
@@ -26,6 +27,13 @@ class Families extends \yii\db\ActiveRecord
     {
         return 'families';
     }
+    
+    public function behaviors()
+    {
+        return [
+            TimestampBehavior::className(),
+        ];
+    }    
 
     /**
      * @inheritdoc
@@ -33,7 +41,7 @@ class Families extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['husband_id', 'wife_id', 'descr'], 'required'],
+            [['husband_id', 'wife_id'], 'required'],
 //            [[], 'integer'],
             [['mdate', 'created_at', 'updated_at', 'husband_id', 'wife_id'], 'safe'],
             [['descr'], 'string']
