@@ -38,8 +38,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value' => $model->relative->fullName,
             ],            
             'url:url',
-            'created_at',
-            'updated_at',
+            [
+                'attribute' => 'created_at',
+                'value' => date('d-m-Y H:i:s',$model->created_at),
+            ],
+            [
+                'attribute' => 'updated_at',
+                'value' => date('d-m-Y H:i:s',$model->updated_at),
+            ],            
         ],
     ]) ?>
 
