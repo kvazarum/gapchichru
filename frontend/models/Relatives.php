@@ -29,10 +29,8 @@ use yii\helpers\Html;
  * @property string $dmonth
  * @property string $dyear
  * @property string $rod
- * @property integer $visible
  * @property string $last_change
  * @property string $hidden
- * @property integer $show_pict
  * @property double $grave_lon
  * @property double $grave_lat
  * @property string $cemetery_id
@@ -61,9 +59,9 @@ class Relatives extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['index', 'rod', 'visible', 'last_change', 'created_at', 'updated_at'], 'required'],
+            [['gender'], 'required'],
             [['bdate', 'ddate', 'last_change', 'created_at', 'updated_at', 'fullName'], 'safe'],
-            [['bday', 'mother_id', 'father_id', 'gender', 'visible', 'show_pict', 'cemetery_id'], 'integer'],
+            [['bday', 'mother_id', 'father_id', 'gender', 'show_pict', 'cemetery_id'], 'integer'],
             [['grave_lon', 'grave_lat'], 'number'],
             [['index'], 'string', 'max' => 40],
             [['sname', 'mname', 'rod', 'grave_picture'], 'string', 'max' => 50],
@@ -103,7 +101,6 @@ class Relatives extends \yii\db\ActiveRecord
             'dmonth' => 'Месяц смерти',
             'dyear' => 'Год смерти',
             'rod' => 'Род',
-            'visible' => 'Видимость',
             'hidden' => 'Доп. сведения',
             'show_pict' => 'Показывать аватар',
             'grave_lon' => 'Grave Lon',
