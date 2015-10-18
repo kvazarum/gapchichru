@@ -36,6 +36,8 @@ $gender = [
 <div class="relatives-form">
 
     <?php $form = ActiveForm::begin(); ?>
+    
+    <?= $form->field($model, 'rod')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'sname')->textInput(['maxlength' => true]) ?>
 
@@ -99,15 +101,11 @@ $gender = [
 
     <?= $form->field($model, 'second_sname')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'ddate')->textInput() ?>
-
     <?= $form->field($model, 'dday')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'dmonth')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'dyear')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'rod')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'visible')->textInput()->widget(CheckboxX::classname(), [
         'autoLabel'=>true,
@@ -115,7 +113,7 @@ $gender = [
         ])->label(false); 
     ?>
 
-    <?= $form->field($model, 'hidden')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'hidden')->textarea() ?>
 
     <?= $form->field($model, 'show_pict')->textInput()->widget(CheckboxX::classname(), [
         'autoLabel'=>true,
@@ -132,7 +130,7 @@ $gender = [
     <?= $form->field($model, 'grave_picture')->textInput(['maxlength' => true]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Изменить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? 'Добавить' : 'Сохранить', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>
