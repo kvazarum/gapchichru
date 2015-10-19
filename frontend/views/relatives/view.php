@@ -395,7 +395,9 @@ const COL_SPAN = 4;
                 }
                 
                 $children = Relatives::findAll([$field => $model->id]);
-                renderRelativesTable($children, 1);
+                $count = 0;
+                renderRelativesTable($children, 1, $count);
+                echo '<h4>Всего: '.$count.'</h4>';
             }
             else
             {
@@ -463,7 +465,7 @@ const COL_SPAN = 4;
         }
     }
 
-    function renderRelativesTable($children, $level)
+    function renderRelativesTable($children, $level, &$common)
     {
         $nextLevelChildren = [];
         $count = 0;
@@ -513,9 +515,11 @@ const COL_SPAN = 4;
         echo Html::endTag('tr');        
         echo Html::endTag('table');
         
+        $common += $count;
+        
         if (count ($nextLevelChildren) > 0)
         {
-            renderRelativesTable($nextLevelChildren, ++$level);
+            renderRelativesTable($nextLevelChildren, ++$level, $common);
         }
     }
 ?>
