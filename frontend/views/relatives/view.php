@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use frontend\models\Relatives;
-use frontend\models\Families;
+use frontend\modules\family\models\Families;
 use frontend\models\Photos;
 use frontend\models\Cemeteries;
 use frontend\models\SocialAccount;
@@ -208,7 +208,7 @@ const COL_SPAN = 4;
                         $url = '/relatives/create?father_id='.$father.'&mother_id='.$mother;
                         $options = NULL;
                         $text = Html::tag('a', '<small>Добавить ребёнка</small>', ['class' => 'btn btn-success pull-right', 'href' => $url, 'target' => '_blank']);
-                        $a = Html::a('<h4>Семья</h4>','/families/view?id='.$families[$i]->id, ['target' => '_blank']);
+                        $a = Html::a('<h4>Семья</h4>','/family/default/view?id='.$families[$i]->id, ['target' => '_blank']);
                         echo Html::tag('th', $a.$text, ['colspan' => COL_SPAN]);
                         echo Html::endTag('tr');
                         echo Html::beginTag('tr');
