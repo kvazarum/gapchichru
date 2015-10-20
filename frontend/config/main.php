@@ -11,7 +11,12 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],
     'language' => 'ru-RU',
-    'modules' => [       
+    'modules' => [
+        'family' => [
+
+            'class' => 'frontend\modules\family\Family',
+
+        ],        
     ],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
