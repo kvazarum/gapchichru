@@ -40,6 +40,8 @@ $gender = [
     <?= $form->field($model, 'rod')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'sname')->textInput(['maxlength' => true]) ?>
+    
+    <?= $form->field($model, 'second_sname')->textInput(['maxlength' => true]) ?>    
 
     <?= $form->field($model, 'fname')->textInput(['maxlength' => true]) ?>
 
@@ -98,8 +100,6 @@ $gender = [
     <?= $form->field($model, 'gender')->dropDownList($gender) ?>
 
     <?= $form->field($model, 'descr')->textarea() ?>
-
-    <?= $form->field($model, 'second_sname')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'dday')->textInput(['maxlength' => true]) ?>
 
