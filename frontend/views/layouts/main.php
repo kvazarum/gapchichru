@@ -77,9 +77,10 @@ AppAsset::register($this);
             $menuItems[] = ['label' => 'Справочники', 
                 "items" => [
                     ['label' => 'Люди', 'url' => ['/relatives']],
-                    ['label' => 'Семьи', 'url' => ['/families']],
+                    ['label' => 'Семьи', 'url' => ['/family']],
                     ['label' => 'Список мест захоронений', 'url' => ['/cemeteries']],
                     ['label' => 'Фото, документы', 'url' => ['/photos']],
+                    ['label' => 'Социальные аккаунты', 'url' => ['/social-account']],
                     ['label' => 'Пользователи', 'url' => ['/admin/user']],
                 ]];
         }
