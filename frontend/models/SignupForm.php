@@ -96,7 +96,7 @@ class SignupForm extends Model
     {
         return Yii::$app->mailer->compose('activationEmail', ['user' => $user])
                 ->setFrom([Yii::$app->params['supportEmail'] => 'gapchich.ru (отправлено роботом).'])
-                ->setTo(Yii::$app->params['supportEmail'])
+                ->setTo($this->email)
                 ->setSubject('Активация для '.Yii::$app->name)
                 ->send();
     }
