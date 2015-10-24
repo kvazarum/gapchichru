@@ -342,23 +342,38 @@ class Relatives extends \yii\db\ActiveRecord
         return $result;
     }
     
-
+/**
+ * Получение отца
+ * @return Relatives
+ */
     public function getFather() {
         $result = $this->hasOne(self::classname(),['father_id' => 'id'])
                 -> from(self::tableName() . ' AS father');
         return $result;
     }
-    
+
+/**
+ * Получение матери
+ * @return Relatives
+ */    
     public function getMother() {
         $result = $this->hasOne(self::classname(),['mother_id' => 'id'])
                 -> from(self::tableName() . ' AS mother');
         return $result;
     }    
     
+/**
+ * Получение имени матери
+ * @return string
+ */    
     public function getMotherName() {
         return $this->mother->fullName;
     }
-    
+
+/**
+ * Получение имени отца
+ * @return string
+ */        
     public function getFatherName() {
         return $this->father->fullName;
     }    
@@ -368,9 +383,11 @@ class Relatives extends \yii\db\ActiveRecord
         $this->img = $fileName;
     }
 
-    /**
-     * Получение списка родов (фамилий предков) человека
-     */
+/**
+ * Получение списка родов (фамилий предков) человека
+ * @param array $clans
+ * @return array
+ */
     public function getClans(&$clans = null)
     {
         if ($clans == null)
@@ -394,5 +411,63 @@ class Relatives extends \yii\db\ActiveRecord
             Relatives::findOne($this->mother_id)->getClans($clans);;
         }
         return $clans;
+    }
+    
+/**
+ * Определяет, является ли родственником человек, заданный параметром <b>$relative_id</b>
+ * к пользователю, заданному параметром <b>$my_id</b>
+ * @param integer $my_id
+ * @param integer $relative_id
+ * @return string просто строка если не родственники, иначе ссылка на страницу с подробным графиком родственной связи
+ */
+    public static function isKinsman($my_id, $relative_id)
+    {
+	$my_rels = self::getRelatives($my_rels, $my_id); // предки юзера
+	$rel_rels = self::getRelatives($rel_rels, $relative_id); // предки выбранного человека
+        $flag = FALSE;  //  признак того что вы родственники
+        
+	if (isset($rel_rels) && in_array($my_id, $rel_rels)){
+            $result = 'Вы являетесь предком.';
+            $flag = TRUE;    
+        }
+	elseif (isset($my_rels) && in_array($relative_id, $my_rels)){
+            $result = 'Вы являетесь потомком.';
+            $flag = TRUE;
+        }
+        else {
+            if (count($my_rels) > count($rel_rels)) {
+                $common_relatives = array_intersect($my_rels, $rel_rels);
+            }
+            else {
+                $common_relatives = array_intersect($rel_rels, $my_rels);
+            }
+            if (count($common_relatives) > 0){
+                $result = 'Вы являетесь родственниками';
+            }
+            else {
+                $result = 'Вы не являетесь родственниками.';
+            }
+        }
+//        if ($flag)
+//        {
+//            $result = Html::a($result, '/relatives', ['target' => '_blank']);
+//        }
+        return $result;
+    }
+    
+    private static function getRelatives(&$relatives, $rel_id)
+    {
+        $relative = Relatives::findOne($rel_id);
+        if ($relative->father_id != NULL)
+        {
+            $relatives[] = $relative->father_id;
+            self::getRelatives($relatives, $relative->father_id);
+        }
+        if ($relative->mother_id != NULL)
+        {
+            $relatives[] = $relative->mother_id;
+            self::getRelatives($relatives, $relative->mother_id);
+        }
+        return $relatives;        
     }
 }
