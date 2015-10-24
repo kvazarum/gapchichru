@@ -146,6 +146,12 @@ const COL_SPAN = 4;
                 'format' => 'raw',
                 'value' => getSocialAccounts($model),
             ],
+            [
+                'label' => 'Степень родства',
+                'format' => 'raw',
+                'visible' => !Yii::$app->user->isGuest,
+                'value' => Relatives::isKinsman(Yii::$app->user->identity->relative_id, $model->id),
+            ],
         ],
     ]) ?>
         </div>
