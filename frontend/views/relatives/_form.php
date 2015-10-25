@@ -53,44 +53,42 @@ $gender = [
 
     <?= $form->field($model, 'byear')->textInput(['maxlength' => true]) ?>
 
-    <?php
-        
-        $relatives = Relatives::findAll(['gender' => 0]);
-        $array = [];
-        foreach ($relatives as $rel) {
-            $name = $rel->getFullName();
-            $array[] = ['id' => $rel->id, 'name' => $name];
-        }
-        $list = ArrayHelper::map($array, 'id' , 'name');
-        
-//        echo $form->field($model, 'father_id')->textInput(['maxlength' => true]);
-        echo $form->field($model, 'father_id')->widget(Select2::classname(), [
-            'data' => $list,
-            'language' => 'ru',
-            'options' => ['placeholder' => 'Выберите отца ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]);
+    <?php        
+        echo $form->field($model, 'father_id')->textInput(['maxlength' => true]);
+//        $relatives = Relatives::findAll(['gender' => 0]);
+//        $array = [];
+//        foreach ($relatives as $rel) {
+//            $name = $rel->getFullName();
+//            $array[] = ['id' => $rel->id, 'name' => $name];
+//        }
+//        $list = ArrayHelper::map($array, 'id' , 'name');        
+//        echo $form->field($model, 'father_id')->widget(Select2::classname(), [
+//            'data' => $list,
+//            'language' => 'ru',
+//            'options' => ['placeholder' => 'Выберите отца ...'],
+//            'pluginOptions' => [
+//                'allowClear' => true
+//            ],
+//        ]);
     ?>
     
     <?php
-//        echo $form->field($model, 'mother_id')->textInput(['maxlength' => true]);
-        $relatives = Relatives::findAll(['gender' => 1]);
-        $array = [];
-        foreach ($relatives as $rel) {
-            $name = $rel->getFullName();
-            $array[] = ['id' => $rel->id, 'name' => $name];
-        }
-        $list = ArrayHelper::map($array, 'id' , 'name');    
-        echo $form->field($model, 'mother_id')->widget(Select2::classname(), [
-            'data' => $list,
-            'language' => 'ru',
-            'options' => ['placeholder' => 'Выберите мать ...'],
-            'pluginOptions' => [
-                'allowClear' => true
-            ],
-        ]);    
+        echo $form->field($model, 'mother_id')->textInput(['maxlength' => true]);
+//        $relatives = Relatives::findAll(['gender' => 1]);
+//        $array = [];
+//        foreach ($relatives as $rel) {
+//            $name = $rel->getFullName();
+//            $array[] = ['id' => $rel->id, 'name' => $name];
+//        }
+//        $list = ArrayHelper::map($array, 'id' , 'name');    
+//        echo $form->field($model, 'mother_id')->widget(Select2::classname(), [
+//            'data' => $list,
+//            'language' => 'ru',
+//            'options' => ['placeholder' => 'Выберите мать ...'],
+//            'pluginOptions' => [
+//                'allowClear' => true
+//            ],
+//        ]);    
     ?>
 
     <?= $form->field($model, 'img')->textInput(['maxlength' => true]) ?>
@@ -103,7 +101,7 @@ $gender = [
 
     <?= $form->field($model, 'dday')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'dmonth')->textInput(['maxlength' => true]) ?>
+    <?= $form->field($model, 'dmonth')->dropDownList($month, ['class' => 'form-control'])    ?>
 
     <?= $form->field($model, 'dyear')->textInput(['maxlength' => true]) ?>
 
