@@ -104,8 +104,10 @@ AppAsset::register($this);
 
 <footer class="footer">
     <div class="container">
-        <p class="pull-left">&copy; gapchich.ru <?= date('Y') ?></p>
-
+        <p class="pull-left">&copy; gapchich.ru <?= date('Y') ?>
+            <a href="http://www.vgd.ru/cgi-bin/ringlink/list.pl?ringid=vgd;siteid=gapchich" TARGET="_blank"><img SRC="http://www.vgd.ru/kgs2.gif" ALT="Кольцо генеалогических сайтов" NOSAVE BORDER=0 height=30 width=80>
+        </p>
+        
         <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
