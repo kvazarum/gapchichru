@@ -422,31 +422,38 @@ class Relatives extends \yii\db\ActiveRecord
  */
     public static function isKinsman($my_id, $relative_id)
     {
-	$my_rels = self::getRelatives($my_rels, $my_id); // предки юзера
-	$rel_rels = self::getRelatives($rel_rels, $relative_id); // предки выбранного человека
-        $flag = FALSE;  //  признак того что вы родственники
-        
-	if (isset($rel_rels) && in_array($my_id, $rel_rels)){
-            $result = 'Вы являетесь предком.';
-            $flag = TRUE;    
-        }
-	elseif (isset($my_rels) && in_array($relative_id, $my_rels)){
-            $result = 'Вы являетесь потомком.';
-            $flag = TRUE;
-        }
-        else {
-            if (count($my_rels) > count($rel_rels)) {
-                $common_relatives = array_intersect($my_rels, $rel_rels);
+        if ($my_id != $relative_id)
+        {
+            $my_rels = $rel_rels = [];
+            $my_rels = self::getRelatives($my_rels, $my_id); // предки юзера
+            $rel_rels = self::getRelatives($rel_rels, $relative_id); // предки выбранного человека
+            $flag = FALSE;  //  признак того что вы родственники
+
+            if (isset($rel_rels) && in_array($my_id, $rel_rels)){
+                $result = 'Вы являетесь предком.';
+                $flag = TRUE;    
+            }
+            elseif (isset($my_rels) && in_array($relative_id, $my_rels)){
+                $result = 'Вы являетесь потомком.';
+                $flag = TRUE;
             }
             else {
-                $common_relatives = array_intersect($rel_rels, $my_rels);
+                if (count($my_rels) > count($rel_rels)) {
+                    $common_relatives = array_intersect($my_rels, $rel_rels);
+                }
+                else {
+                    $common_relatives = array_intersect($rel_rels, $my_rels);
+                }
+                if (count($common_relatives) > 0){
+                    $result = 'Вы являетесь родственниками';
+                }
+                else {
+                    $result = 'Вы не являетесь родственниками.';
+                }
             }
-            if (count($common_relatives) > 0){
-                $result = 'Вы являетесь родственниками';
-            }
-            else {
-                $result = 'Вы не являетесь родственниками.';
-            }
+        }
+        else{
+            $result = 'Это Вы.';
         }
 //        if ($flag)
 //        {
