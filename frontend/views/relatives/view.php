@@ -152,6 +152,12 @@ const COL_SPAN = 4;
                 'visible' => !Yii::$app->user->isGuest,
                 'value' => Relatives::isKinsman(Yii::$app->user->identity->relative_id, $model->id),
             ],
+            [
+                'label' => 'Место захоронения',
+                'format' => 'raw',
+                'visible' => is_numeric($model->cemetery_id),
+                'value' => $model->cemetery_id ? Html::a($model->cemetery->title, '/cemeteries/view?id='.$model->cemetery_id, ['target' => '_blank']) : 'Не задано',
+            ],            
         ],
     ]) ?>
         </div>
