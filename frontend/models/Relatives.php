@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use Yii;
 use yii\helpers\Html;
+use frontend\models\Cemeteries;
 
 /**
  * This is the model class for table "relatives".
@@ -38,6 +39,7 @@ use yii\helpers\Html;
  * @property string $created_at
  * @property string $updated_at
  * @property string $fullName
+ * @property Cemeteries $cemetery
  */
 class Relatives extends \yii\db\ActiveRecord
 {    
@@ -476,5 +478,10 @@ class Relatives extends \yii\db\ActiveRecord
             self::getRelatives($relatives, $relative->mother_id);
         }
         return $relatives;        
+    }
+    
+    public function getCemetery()
+    {
+        return Cemeteries::findOne($this->cemetery_id);
     }
 }
