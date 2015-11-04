@@ -237,6 +237,9 @@ class Relatives extends \yii\db\ActiveRecord
         {
             $rel = Relatives::findOne($id);
         }
+        else {
+            $rel = FALSE;
+        }
         if ($rel)   //  если запись существует
         {
             echo Html::beginTag('tr', ['class' => 'detail']);
