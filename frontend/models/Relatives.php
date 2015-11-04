@@ -237,7 +237,9 @@ class Relatives extends \yii\db\ActiveRecord
         {
             $rel = Relatives::findOne($id);
         }
-        echo Html::beginTag('tr', ['class' => 'detail']);
+        if ($rel)   //  если запись существует
+        {
+            echo Html::beginTag('tr', ['class' => 'detail']);
             if ($id > 0)
             {
                 $text = Html::a($rel->getFullName(), '/relatives/view?id='.$id, ['title' => $rel->descr]);
@@ -282,7 +284,8 @@ class Relatives extends \yii\db\ActiveRecord
             }
             else { $text = ''; }
             echo Html::tag('td', $text, ['class' => 'col-lg-1']);
-        echo Html::endTag('tr');
+            echo Html::endTag('tr');
+        }
     }
     
     public function hasAvatar()
