@@ -469,6 +469,9 @@ const COL_SPAN = 4;
                     $nextLevelAncestors[] = Relatives::findOne($parent->mother_id);
                 }                
             }
+        echo Html::beginTag('tr', ['class' => 'info']);
+            echo Html::tag('th', 'Итого: '.  count($parents), ['colspan' => COL_SPAN]);
+        echo Html::endTag('tr');            
         echo Html::endTag('table');
         
         if (count($nextLevelAncestors) > 0)
